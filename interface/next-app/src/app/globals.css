@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #F8F8FF;
+  --color-foreground: #010203;
+  --color-brand-red: #D8524B;
+  --color-brand-yellow: #FFFFA7;
+  
+  --font-sans: var(--font-inter), "Inter", sans-serif;
+  --font-heading: var(--font-plus-jakarta), "Plus Jakarta Sans", sans-serif;
+}
+
+:root {
+  --background: #F8F8FF;
+  --foreground: #010203;
+  --primary: #D8524B;
+  --secondary: #FFFFA7;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
+}
+
+/* Custom organic showcase blob styles (Replit bento aesthetic) */
+.organic-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.15;
+}
+
+.organic-blob-red {
+  background-color: var(--color-brand-red);
+}
+
+.organic-blob-yellow {
+  background-color: var(--color-brand-yellow);
+}
+
+/* Custom scroll progress indicator styling */
+.step-timeline-line {
+  background: linear-gradient(to bottom, transparent, var(--color-brand-red) 10%, var(--color-brand-red) 90%, transparent);
+}
+
+/* Animated SVG path drawing style */
+@keyframes dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-dash {
+  stroke-dasharray: 8 4;
+  animation: dash 2s linear infinite;
+}
+
+/* Custom backdrop properties */
+.glass-card {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(1, 2, 3, 0.04);
+}
+
+/* Muted border styling */
+.border-subtle {
+  border-color: rgba(1, 2, 3, 0.05);
+}

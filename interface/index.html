@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BEE • The Trusted WhatsApp Business Bridge</title>
+  <meta name="description" content="Securely authorize approved business tools and services using Meta's official WhatsApp Business onboarding process.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Replit-inspired Canvas Grids and Blobs -->
+  <div class="canvas-bg-wrapper" aria-hidden="true">
+    <div class="dot-grid" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.8;"></div>
+    <!-- Layered organic color blobs -->
+    <div class="replit-blob replit-blob-terracotta" style="top: -100px; right: -100px;"></div>
+    <div class="replit-blob replit-blob-yellow" style="top: 30%; left: -200px;"></div>
+    <div class="replit-blob replit-blob-terracotta" style="bottom: -100px; right: -200px;"></div>
+  </div>
+
+  <a href="#main-content" class="sr-only">Skip to main content</a>
+
+  <!-- ==========================================================================
+       TOP NAVIGATION BAR
+       ========================================================================== -->
+  <header class="navbar" role="banner">
+    <div class="container navbar-container">
+      
+      <div class="navbar-left">
+        <a href="#/" class="navbar-logo-center" aria-label="BEE Homepage">
+          BEE<span class="navbar-logo-dot"></span>
+        </a>
+        <nav role="navigation" aria-label="Main Navigation">
+          <!-- Public Links -->
+          <div id="nav-public-links" style="display: flex; gap: var(--space-xs);">
+            <a href="#/" class="navbar-link active" id="nav-link-home">Home</a>
+            <a href="#/support" class="navbar-link" id="nav-link-support-pub">Support</a>
+          </div>
+
+          <!-- Authenticated Links -->
+          <div id="nav-authenticated-links" style="display: none; gap: var(--space-xs);">
+            <a href="#/dashboard" class="navbar-link" id="nav-link-dashboard">Console</a>
+            <a href="#/activity" class="navbar-link" id="nav-link-activity">Activity Log</a>
+            <a href="#/permissions" class="navbar-link" id="nav-link-permissions">Permissions</a>
+          </div>
+        </nav>
+      </div>
+
+      <div class="navbar-right">
+        <!-- Unauthenticated Actions -->
+        <div id="nav-unauth-actions" style="display: flex; gap: var(--space-xs); align-items: center;">
+          <a href="#/login" class="btn btn-ghost">Sign In</a>
+          <a href="#/signup" class="btn btn-primary">Get Started</a>
+        </div>
+
+        <!-- Authenticated Actions -->
+        <div id="nav-auth-actions" style="display: none; align-items: center; gap: var(--space-xs);">
+          <a href="#/support" class="navbar-link" id="nav-link-support-auth">Support</a>
+          <a href="#/settings" class="navbar-link" id="nav-link-settings">Settings</a>
+          
+          <div class="dropdown" id="profile-dropdown">
+            <button class="dropdown-trigger btn btn-outline" id="profile-dropdown-btn" aria-haspopup="true" aria-expanded="false" style="min-height: 38px; padding: 6px 12px; font-size: 0.8125rem; display: flex; align-items: center; gap: 8px;">
+              <span id="user-display-avatar" style="background-color: var(--brand-accent); color: white; border-radius: 50%; width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.6875rem;">U</span>
+              <span id="user-display-name" style="font-weight: 600;">Owner</span>
+              <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="dropdown-menu" id="profile-dropdown-menu" role="menu">
+              <button class="dropdown-item" role="menuitem" onclick="location.hash='#/settings'">Profile Settings</button>
+              <button class="dropdown-item" role="menuitem" onclick="location.hash='#/settings?tab=security'">Security Keys</button>
+              <hr style="border: none; border-top: 1px solid var(--border-color); margin: 4px 0;">
+              <button class="dropdown-item" role="menuitem" id="btn-logout" style="color: var(--error);">Log Out</button>
+            </div>
+          </div>
+        </div>
+
+        <button class="navbar-toggle" id="mobile-menu-toggle" aria-label="Toggle Menu" aria-expanded="false">
+          <span class="navbar-toggle-bar"></span>
+          <span class="navbar-toggle-bar"></span>
+          <span class="navbar-toggle-bar"></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       MAIN VIEWS ROUTER
+       ========================================================================== -->
+  <main id="main-content" role="main">
+
+    <!-- 1. LANDING PAGE VIEW -->
+    <section id="view-landing" class="view active">
+      
+      <!-- HERO SECTION -->
+      <article class="section-hero">
+        <div class="container hero-grid">
+          <div class="reveal-fade-up">
+            <div style="display: inline-flex; align-items: center; gap: 8px; background-color: var(--brand-accent-bg); border: 1.5px solid rgba(216,82,75,0.15); border-radius: var(--radius-pill); padding: 6px 14px; margin-bottom: 24px; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--brand-accent);">
+              Official Meta Integration Gateway
+            </div>
+            
+            <h1>The trusted bridge between businesses and WhatsApp.</h1>
+            
+            <p class="lead" style="margin-top: 16px; margin-bottom: 32px; max-width: 520px; color: var(--text-secondary);">
+              BEE provides a secure, permission-controlled gateway to connect your WhatsApp Business Account. Maintain complete number ownership, select precise permissions, and revoke access at any time.
+            </p>
+            
+            <div class="hero-ctas">
+              <a href="#/signup" class="btn btn-primary">Connect Your Account</a>
+              <a href="#landing-learn-more" class="btn btn-outline">Learn More</a>
+            </div>
+          </div>
+
+          <!-- Large custom onboarding visualization (Centerpiece) -->
+          <div class="reveal-fade-up delay-1">
+            <div class="hero-flow-diagram">
+              <div class="flow-step-container">
+                
+                <div class="flow-step-node active">
+                  <span class="flow-node-dot"></span>
+                  <div class="flow-step-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                  <div class="flow-step-desc">
+                    <div class="flow-step-title">Business Owner Profile</div>
+                    <div class="flow-step-subtitle">Identity verified via BEE console</div>
+                  </div>
+                </div>
+
+                <div class="flow-step-line active"></div>
+
+                <div class="flow-step-node active">
+                  <span class="flow-node-dot"></span>
+                  <div class="flow-step-icon" style="color: #1877F2; background-color: rgba(24,119,242,0.06); border-color: rgba(24,119,242,0.2);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                  </div>
+                  <div class="flow-step-desc">
+                    <div class="flow-step-title">Meta Secure Authorization</div>
+                    <div class="flow-step-subtitle">Permission scopes reviewed and active</div>
+                  </div>
+                </div>
+
+                <div class="flow-step-line active"></div>
+
+                <div class="flow-step-node active">
+                  <span class="flow-node-dot"></span>
+                  <div class="flow-step-icon" style="color: #25D366; background-color: rgba(37,211,102,0.06); border-color: rgba(37,211,102,0.2);">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div class="flow-step-desc">
+                    <div class="flow-step-title">WhatsApp Business Profile</div>
+                    <div class="flow-step-subtitle">Number connected and synchronized</div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- TRUST LAYER -->
+      <section class="section-trustbar">
+        <div class="container trustbar-container">
+          <div class="trustbar-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"/></svg>
+            <span>Official Meta Authorization</span>
+          </div>
+          <div class="trustbar-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            <span>Ownership Preserved</span>
+          </div>
+          <div class="trustbar-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <span>Permission-Based Access</span>
+          </div>
+          <div class="trustbar-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.36 6.64L12 13L5.64 6.64"/><path d="M12 2V13"/></svg>
+            <span>Revocable Authorization</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- BUSINESS OUTCOMES (VALUE BEFORE PROCESS) -->
+      <section class="section section-outcomes">
+        <div class="container">
+          <div style="max-width: 600px; margin-bottom: 48px;" class="reveal-fade-up">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">Business Use Cases</span>
+            <h2>What businesses use connected WhatsApp accounts for</h2>
+            <p class="lead">Focus on outcomes, not developer complexity. Deliver verified transactional text reminders directly to customer devices.</p>
+          </div>
+
+          <div class="outcomes-grid">
+            
+            <!-- Gyms & Clubs Showcase -->
+            <div class="outcome-showcase-card reveal-fade-up">
+              <div>
+                <span class="outcome-badge-pill">Gyms & Wellness</span>
+                <h3>Membership Renewals</h3>
+                <p style="margin-top: 8px;">Ensure members stay updated with billing statuses and renewal rates automatically.</p>
+              </div>
+              <div class="outcome-chat-mockup">
+                <div class="outcome-chat-header">
+                  <div class="outcome-chat-avatar">G</div>
+                  <div class="outcome-chat-name">Elite Health Gym</div>
+                </div>
+                <div class="outcome-chat-bubble">
+                  Hi Sarah, your membership is up for renewal next week. Tap below to confirm your automatic renewal and lock in your loyalty rate.
+                </div>
+              </div>
+            </div>
+
+            <!-- Healthcare Clinics Showcase -->
+            <div class="outcome-showcase-card reveal-fade-up delay-1">
+              <div>
+                <span class="outcome-badge-pill">Clinics & Care</span>
+                <h3>Appointment Confirmations</h3>
+                <p style="margin-top: 8px;">Reduce calendar gaps by allowing patients to verify scheduled appointments in one tap.</p>
+              </div>
+              <div class="outcome-chat-mockup">
+                <div class="outcome-chat-header">
+                  <div class="outcome-chat-avatar">C</div>
+                  <div class="outcome-chat-name">Apex Wellness Clinic</div>
+                </div>
+                <div class="outcome-chat-bubble">
+                  Hi John, your annual wellness appointment is scheduled for tomorrow at 10:00 AM. Please reply to this message with YES to confirm.
+                </div>
+              </div>
+            </div>
+
+            <!-- Salons Showcase -->
+            <div class="outcome-showcase-card reveal-fade-up">
+              <div>
+                <span class="outcome-badge-pill">Salons & Beauty</span>
+                <h3>Booking Updates</h3>
+                <p style="margin-top: 8px;">Keep clients informed with scheduling alerts, stylist changes, and calendar links.</p>
+              </div>
+              <div class="outcome-chat-mockup">
+                <div class="outcome-chat-header">
+                  <div class="outcome-chat-avatar">S</div>
+                  <div class="outcome-chat-name">Aura Hair Salon</div>
+                </div>
+                <div class="outcome-chat-bubble">
+                  Dear Emma, your slot with stylist Marcus is booked for Friday at 2:00 PM. Tap here if you need to adjust your booking details.
+                </div>
+              </div>
+            </div>
+
+            <!-- Restaurants Showcase -->
+            <div class="outcome-showcase-card reveal-fade-up delay-1">
+              <div>
+                <span class="outcome-badge-pill">Restaurants & Venues</span>
+                <h3>Order Notifications</h3>
+                <p style="margin-top: 8px;">Deliver digital order receipts and queue pickup notifications instantly.</p>
+              </div>
+              <div class="outcome-chat-mockup">
+                <div class="outcome-chat-header">
+                  <div class="outcome-chat-avatar">R</div>
+                  <div class="outcome-chat-name">The Bistro</div>
+                </div>
+                <div class="outcome-chat-bubble">
+                  Your order #481 has been prepared and is ready for pickup. Thank you for ordering from The Bistro!
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- PRODUCT SHOWCASE SYSTEM -->
+      <section class="section">
+        <div class="container">
+          <div style="text-align: center; max-width: 600px; margin: 0 auto 64px auto;" class="reveal-fade-up">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">Product Console</span>
+            <h2>Designed for control and absolute visibility.</h2>
+            <p>Our platform handles authorization mapping in the background while giving you a clean interface to monitor connection health.</p>
+          </div>
+
+          <div class="showcase-grid" style="margin-bottom: var(--space-xxl);" class="reveal-fade-up">
+            <div>
+              <h3>Connection Status Console</h3>
+              <p style="margin-top: 12px; margin-bottom: 20px; color: var(--text-secondary);">
+                Monitor connected parameters in real-time. View registered WhatsApp business profiles, linked telephone numbers, and current synchronizations. If you ever need to revoke access, the control panel is always a click away.
+              </p>
+              <a href="#/login" class="btn btn-outline">Preview Connection Dashboard</a>
+            </div>
+            <div>
+              <div class="browser-showcase">
+                <div class="browser-header">
+                  <div class="browser-dots">
+                    <span class="browser-dot red"></span>
+                    <span class="browser-dot yellow"></span>
+                    <span class="browser-dot green"></span>
+                  </div>
+                  <div class="browser-url-bar">bee.platform / dashboard</div>
+                </div>
+                <div class="browser-content" style="padding: 16px;">
+                  <div style="background-color: var(--bg-primary); border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--border-color);">
+                    <div>
+                      <span class="badge badge-success" style="font-size: 8px;">Active Link</span>
+                      <h4 style="font-size: 0.8125rem; margin-top: 4px;">Elite Gym Verified Line</h4>
+                    </div>
+                    <button class="btn btn-outline" style="min-height: 28px; padding: 4px 10px; font-size: 0.75rem; border-radius: 6px;">Disconnect</button>
+                  </div>
+                  <table class="table" style="margin-top: 12px;">
+                    <thead>
+                      <tr>
+                        <th>Access Scope</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Profile Verification Naming</td>
+                        <td><span style="color:var(--success); font-weight:700;">✓ Synced</span></td>
+                      </tr>
+                      <tr>
+                        <td>Template message sending</td>
+                        <td><span style="color:var(--success); font-weight:700;">✓ Allowed</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="showcase-grid" style="grid-template-columns: 0.95fr 1.05fr;" class="reveal-fade-up">
+            <div>
+              <div class="browser-showcase">
+                <div class="browser-header">
+                  <div class="browser-dots">
+                    <span class="browser-dot red"></span>
+                    <span class="browser-dot yellow"></span>
+                    <span class="browser-dot green"></span>
+                  </div>
+                  <div class="browser-url-bar">bee.platform / activity-log</div>
+                </div>
+                <div class="browser-content" style="padding: 16px;">
+                  <div class="timeline">
+                    <div class="timeline-item">
+                      <span class="timeline-dot success"></span>
+                      <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px; margin-left: 8px;">
+                        <strong style="font-size: 0.75rem; display:block; color:var(--text-primary);">Meta Login Handshake Authorized</strong>
+                        <span style="font-size: 0.6875rem; color:var(--text-muted);">Access token successfully requested natively.</span>
+                      </div>
+                    </div>
+                    <div class="timeline-item">
+                      <span class="timeline-dot success"></span>
+                      <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 12px; margin-left: 8px;">
+                        <strong style="font-size: 0.75rem; display:block; color:var(--text-primary);">Verification Logs Synced</strong>
+                        <span style="font-size: 0.6875rem; color:var(--text-muted);">Validated naming credentials.</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <h3>Real-Time Audit Timelines</h3>
+              <p style="margin-top: 12px; margin-bottom: 20px; color: var(--text-secondary);">
+                BEE maintains complete, revocable audit trails for every security handshake between your business and Meta's servers. View precisely when access parameters are established, verified, or updated.
+              </p>
+              <a href="#/login" class="btn btn-outline">View Activity Log</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- INTERACTIVE CONNECTION FLOW (Visual flowchart explaining what BEE does) -->
+      <section class="section section-flowchart">
+        <div class="container">
+          <div style="text-align: center; max-width: 600px; margin: 0 auto 48px auto;" class="reveal-fade-up">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">Secure Bridge Flow</span>
+            <h2>Transparent Data Connection</h2>
+            <p>BEE secure gateways bridge Meta APIs directly to your business console without password storage.</p>
+          </div>
+
+          <div class="interactive-flowchart-card reveal-fade-up">
+            
+            <div class="flowchart-node active">
+              <strong style="font-size: 0.8125rem; display: block; color: var(--text-primary);">Business Account</strong>
+              <span class="text-sm">Authorized Console</span>
+            </div>
+
+            <div class="flowchart-arrow-container" aria-hidden="true">
+              <div class="flowchart-line-path"></div>
+            </div>
+
+            <div class="flowchart-node active" style="border-color: #1877F2;">
+              <strong style="font-size: 0.8125rem; display: block; color: #1877F2;">Meta Platform</strong>
+              <span class="text-sm">Direct Secure SDK</span>
+            </div>
+
+            <div class="flowchart-arrow-container" aria-hidden="true">
+              <div class="flowchart-line-path"></div>
+            </div>
+
+            <div class="flowchart-node active" style="border-color: #25D366;">
+              <strong style="font-size: 0.8125rem; display: block; color: #25D366;">WhatsApp</strong>
+              <span class="text-sm">Verified Number Sync</span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- HOW IT WORKS REDESIGN (Alternating storyline layouts) -->
+      <section class="section section-steps" id="landing-steps-journey">
+        <div class="container">
+          <div style="text-align: center; max-width: 600px; margin: 0 auto 64px auto;" class="reveal-fade-up">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">Guided Onboarding</span>
+            <h2>How the authorization process works.</h2>
+            <p>A step-by-step storyline showing how your business creates its secure bridge.</p>
+          </div>
+
+          <div class="steps-storyline">
+            
+            <!-- Step 1: Create Account -->
+            <div class="step-story-row active reveal-fade-up">
+              <span class="step-timeline-connector-dot">1</span>
+              <div class="step-story-text">
+                <h3>Create BEE Profile</h3>
+                <p style="margin-top: 12px;">Set up your secure, verification-tracking login credentials within the BEE gateway in under 60 seconds.</p>
+              </div>
+              <div class="step-story-visual">
+                <div class="browser-showcase" style="max-width: 340px;">
+                  <div class="browser-header" style="height: 30px;"><div class="browser-dots"><span class="browser-dot red"></span><span class="browser-dot yellow"></span><span class="browser-dot green"></span></div></div>
+                  <div style="padding: 12px; font-size: 0.75rem;">
+                    <strong>Sign Up for BEE</strong>
+                    <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); height: 28px; border-radius: 6px; margin-top: 8px; padding: 4px 8px; display:flex; align-items:center;">owner@gymname.com</div>
+                    <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); height: 28px; border-radius: 6px; margin-top: 8px; padding: 4px 8px; display:flex; align-items:center;">••••••••</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Connect WhatsApp (Alternate layout) -->
+            <div class="step-story-row alternate-layout reveal-fade-up">
+              <span class="step-timeline-connector-dot">2</span>
+              <div class="step-story-text">
+                <h3>Log In with Meta</h3>
+                <p style="margin-top: 12px;">Establish a direct connection handshake through Facebook's official secure frame. We never see your password.</p>
+              </div>
+              <div class="step-story-visual">
+                <div class="card" style="padding: 16px; border-color: #1877F2; text-align: center; max-width: 300px;">
+                  <span style="font-size: 0.6875rem; text-transform: uppercase; font-weight: 700; color: #1877F2;">Meta Secure Handshake</span>
+                  <div style="background-color: #1877F2; color: white; padding: 8px 12px; border-radius: 6px; margin-top: 12px; font-weight: 600; font-size: 0.8125rem;">Continue with Meta</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Review Permissions -->
+            <div class="step-story-row reveal-fade-up">
+              <span class="step-timeline-connector-dot">3</span>
+              <div class="step-story-text">
+                <h3>Select Business Portfolio</h3>
+                <p style="margin-top: 12px;">Pick the Meta Business account profile and registered telephone number to link into your billing software.</p>
+              </div>
+              <div class="step-story-visual">
+                <div class="browser-showcase" style="max-width: 320px;">
+                  <div class="browser-header" style="height: 30px;"><div class="browser-dots"><span class="browser-dot red"></span><span class="browser-dot yellow"></span><span class="browser-dot green"></span></div></div>
+                  <div style="padding: 12px; font-size: 0.75rem;">
+                    <strong style="font-size:0.75rem; display:block; margin-bottom:8px;">Choose Business Account</strong>
+                    <div style="border: 1px solid var(--border-color); border-radius: 6px; padding: 6px 10px; font-weight:700;">Elite Fitness Corp</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Complete Setup (Alternate layout) -->
+            <div class="step-story-row alternate-layout reveal-fade-up">
+              <span class="step-timeline-connector-dot">4</span>
+              <div class="step-story-text">
+                <h3>Connection Synchronized</h3>
+                <p style="margin-top: 12px;">Your verified line launches active immediately. Sync logs track every message status natively in real-time.</p>
+              </div>
+              <div class="step-story-visual">
+                <div style="background-color: var(--success-bg); border: 1.5px solid var(--success); border-radius: 12px; padding: 16px; text-align: center;">
+                  <span style="color: var(--success); font-weight: 800; font-size: 1.5rem; display:block;">✓</span>
+                  <span style="font-size: 0.75rem; font-weight: 700; color: var(--text-primary);">Connection Complete</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SECURITY & OWNERSHIP REDESIGN -->
+      <section class="section section-security" id="landing-security">
+        <div class="container">
+          <div class="security-split">
+            <div class="reveal-fade-up">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">System Integrity</span>
+              <h2>Your account remains under your absolute ownership.</h2>
+              <p style="margin-bottom: 24px; color: var(--text-secondary);">
+                BEE acts as a connection bridge. We prioritize the safety of your business account and never request credentials.
+              </p>
+              
+              <ul class="security-checklist">
+                <li class="security-check-item">
+                  <span class="security-check-icon">✓</span>
+                  <div>
+                    <strong style="color:var(--text-primary); font-size:0.875rem;">Ownership remains 100% yours</strong>
+                    <span class="text-sm" style="display:block;">You retain ownership of your number, name, page details, and client messages.</span>
+                  </div>
+                </li>
+                <li class="security-check-item">
+                  <span class="security-check-icon">✓</span>
+                  <div>
+                    <strong style="color:var(--text-primary); font-size:0.875rem;">Permissions managed via Meta</strong>
+                    <span class="text-sm" style="display:block;">Connection parameters are authorized within Meta's native popup environment.</span>
+                  </div>
+                </li>
+                <li class="security-check-item">
+                  <span class="security-check-icon">✓</span>
+                  <div>
+                    <strong style="color:var(--text-primary); font-size:0.875rem;">Zero Facebook password visibility</strong>
+                    <span class="text-sm" style="display:block;">Logins execute strictly on Facebook. BEE never sees or handles passwords.</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Large visual trust architecture -->
+            <div style="display: flex; justify-content: center;" class="reveal-fade-up delay-1">
+              <div class="card" style="max-width: 340px; text-align: center; border-color: var(--brand-accent); border-top-width: 4px; box-shadow: var(--shadow-high);">
+                <div style="background-color: var(--brand-accent-bg); width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"/></svg>
+                </div>
+                <h3 style="margin-bottom: 8px; font-size: 1.125rem;">Meta SDK Bridge</h3>
+                <p class="text-sm" style="margin-bottom: 16px;">Verified token connection validated and authorized by Meta Partner structures.</p>
+                <div style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 6px; padding: 10px; color: var(--text-primary);">
+                  SSL Encryption Checked
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PERMISSION TRANSPARENCY -->
+      <section class="section section-transparency">
+        <div class="container">
+          <div style="text-align: center; max-width: 600px; margin: 0 auto 48px auto;" class="reveal-fade-up">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">Boundary Control</span>
+            <h2>Absolute Permission Transparency</h2>
+            <p class="lead">BEE requests strict access limitations. We protect your billing detail and private messages from exposure.</p>
+          </div>
+
+          <div class="permissions-grid">
+            <div class="permissions-column reveal-fade-up" style="border-top: 3px solid var(--success);">
+              <h3 style="font-size: 1.125rem; color: var(--success); margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                What BEE Can Access
+              </h3>
+              
+              <ul style="list-style: none;">
+                <li class="permissions-list-item">
+                  <span style="color: var(--success); font-weight: bold; font-size: 1.125rem; line-height: 1;">✓</span>
+                  <div>
+                    <strong style="font-size: 0.875rem; color: var(--text-primary);">Read WhatsApp Account Settings</strong>
+                    <p class="text-sm">Verify WhatsApp status, profile display name details, and official verification states.</p>
+                  </div>
+                </li>
+                <li class="permissions-list-item">
+                  <span style="color: var(--success); font-weight: bold; font-size: 1.125rem; line-height: 1;">✓</span>
+                  <div>
+                    <strong style="font-size: 0.875rem; color: var(--text-primary);">Transmit Pre-Approved Templates</strong>
+                    <p class="text-sm">Send template transactional updates and notifications to contacts who chose to receive them.</p>
+                  </div>
+                </li>
+                <li class="permissions-list-item">
+                  <span style="color: var(--success); font-weight: bold; font-size: 1.125rem; line-height: 1;">✓</span>
+                  <div>
+                    <strong style="font-size: 0.875rem; color: var(--text-primary);">Monitor Message Sync Logs</strong>
+                    <p class="text-sm">Audit log message states (Delivered, Read) of outbound templates.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="permissions-column reveal-fade-up delay-1" style="border-top: 3px solid var(--error);">
+              <h3 style="font-size: 1.125rem; color: var(--error); margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                What BEE Cannot Access
+              </h3>
+              
+              <ul style="list-style: none;">
+                <li class="permissions-list-item">
+                  <span style="color: var(--error); font-weight: bold; font-size: 1.125rem; line-height: 1;">✕</span>
+                  <div>
+                    <strong style="font-size: 0.875rem; color: var(--text-primary);">Access Facebook Passwords</strong>
+                    <p class="text-sm">BEE never sees or handles your Facebook administrative account passwords.</p>
+                  </div>
+                </li>
+                <li class="permissions-list-item">
+                  <span style="color: var(--error); font-weight: bold; font-size: 1.125rem; line-height: 1;">✕</span>
+                  <div>
+                    <strong style="font-size: 0.875rem; color: var(--text-primary);">Read Personal Text Conversations</strong>
+                    <p class="text-sm">Private chat logs and databases are strictly encrypted. We cannot view them.</p>
+                  </div>
+                </li>
+                <li class="permissions-list-item">
+                  <span style="color: var(--error); font-weight: bold; font-size: 1.125rem; line-height: 1;">✕</span>
+                  <div>
+                    <strong style="font-size: 0.875rem; color: var(--text-primary);">Access Meta Billing Cards</strong>
+                    <p class="text-sm">We have zero visibility into payment profiles, ad accounts, or billing cards on Facebook.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- REVOKE ANYTIME -->
+      <section class="section section-revoke">
+        <div class="container">
+          <div class="showcase-grid">
+            <div class="reveal-fade-up">
+              <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">Revocable Control</span>
+              <h2>Revoke access at any moment.</h2>
+              <p style="margin-top: 16px; margin-bottom: 24px; color: var(--text-secondary);">
+                You retain complete administrative keys. If you choose to disconnect, all synchronization parameters are deleted instantly from BEE's data logs. No residuals, no lock-in.
+              </p>
+              <a href="#/login" class="btn btn-primary">Try the Onboarding Console</a>
+            </div>
+            <div class="reveal-fade-up delay-1">
+              <div class="browser-showcase">
+                <div class="browser-header">
+                  <div class="browser-dots">
+                    <span class="browser-dot red"></span>
+                    <span class="browser-dot yellow"></span>
+                    <span class="browser-dot green"></span>
+                  </div>
+                  <div class="browser-url-bar">bee.platform / console-settings</div>
+                </div>
+                <div class="browser-content" style="padding: 24px; text-align: center;">
+                  <div style="background-color: var(--brand-accent-bg); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18.36 6.64L12 13L5.64 6.64"/><path d="M12 2V13"/></svg>
+                  </div>
+                  <h4 style="margin-bottom: 4px;">Revoke Gateway Access</h4>
+                  <p class="text-sm" style="margin-bottom: 20px;">Disconnecting deletes all synchronization parameters.</p>
+                  
+                  <div style="display: flex; gap: 8px; justify-content: center;">
+                    <button class="btn btn-outline" style="min-height: 34px; padding: 6px 14px; font-size: 0.8125rem;">Keep Connection</button>
+                    <button class="btn btn-danger" style="min-height: 34px; padding: 6px 14px; font-size: 0.8125rem;">Disconnect Account</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIAL SECTION -->
+      <section class="section section-testimonials">
+        <div class="container">
+          <div style="text-align: center; max-width: 600px; margin: 0 auto 64px auto;" class="reveal-fade-up">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">Social Proof</span>
+            <h2>Trusted by business owners.</h2>
+            <p>Verification tunnels established transparently under complete owner control.</p>
+          </div>
+
+          <div class="testimonial-grid">
+            
+            <div class="testimonial-card reveal-fade-up">
+              <p style="font-style: italic; font-size: 0.9375rem;">"Connected in under three minutes. I had my gym's membership notification triggers active before my morning classes started."</p>
+              <div class="testimonial-profile">
+                <div class="testimonial-avatar-placeholder">AJ</div>
+                <div class="testimonial-meta">
+                  <span class="testimonial-name">Alex Johnson</span>
+                  <span class="testimonial-role">Owner, Elite Gym</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card reveal-fade-up delay-1">
+              <p style="font-style: italic; font-size: 0.9375rem;">"Ownership of my number remained completely under my control. I can revoke permissions directly inside my business profile console settings tab."</p>
+              <div class="testimonial-profile">
+                <div class="testimonial-avatar-placeholder">SM</div>
+                <div class="testimonial-meta">
+                  <span class="testimonial-name">Sarah Marcus</span>
+                  <span class="testimonial-role">Manager, Aura Salon</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="testimonial-card reveal-fade-up delay-2">
+              <p style="font-style: italic; font-size: 0.9375rem;">"The setup process was incredibly simple. The Meta login handled credentials natively on their server. Highly secure infrastructure."</p>
+              <div class="testimonial-profile">
+                <div class="testimonial-avatar-placeholder">DH</div>
+                <div class="testimonial-meta">
+                  <span class="testimonial-name">David H.</span>
+                  <span class="testimonial-role">Adviser, Bistro Partners</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ SECTION -->
+      <section class="section-faq" id="landing-faq">
+        <div class="container">
+          <div style="text-align: center; max-width: 600px; margin: 0 auto 48px auto;" class="reveal-fade-up">
+            <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:8px;">Clarifications</span>
+            <h2>Frequently Asked Questions</h2>
+            <p>Answers to your questions about connection ownership, permissions, and security.</p>
+          </div>
+          
+          <div class="faq-container" id="faq-accordion-group">
+            
+            <div class="accordion">
+              <button class="accordion-header" aria-expanded="false" aria-controls="faq-ans-1">
+                <span>Is this safe for my client and customer databases?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="faq-ans-1" role="region">
+                <p>Yes. BEE operates strictly as an official integration channel. We never access, save, or intercept your personal chats, customer lists, page posts, or credentials. Everything remains under your direct ownership.</p>
+              </div>
+            </div>
+            
+            <div class="accordion">
+              <button class="accordion-header" aria-expanded="false" aria-controls="faq-ans-2">
+                <span>Will I lose control of my business phone number?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="faq-ans-2" role="region">
+                <p>No. Ownership of the phone number stays 100% yours. Linking your number only authorizes approved templates to send customer booking updates or reminders through your verified account.</p>
+              </div>
+            </div>
+            
+            <div class="accordion">
+              <button class="accordion-header" aria-expanded="false" aria-controls="faq-ans-3">
+                <span>Can I disconnect my number later?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="faq-ans-3" role="region">
+                <p>Yes, instantly. You retain complete control. Disconnecting takes one click in your settings panel, which deletes all authorization parameters from BEE's dashboard.</p>
+              </div>
+            </div>
+            
+            <div class="accordion">
+              <button class="accordion-header" aria-expanded="false" aria-controls="faq-ans-4">
+                <span>Does BEE store my Facebook account password?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="faq-ans-4" role="region">
+                <p>No. Passwords are never shared with BEE. Logins are executed strictly on Facebook's native servers using Meta's official secure frame.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA BANNER SECTION (Striking rounded full-width container) -->
+      <section class="section section-cta">
+        <div class="container">
+          <div class="cta-banner-container reveal-fade-up">
+            <h2 style="font-size: 3rem; color: #FFFFFF; line-height: 1.1; margin-bottom: 16px;">Connect your business with confidence.</h2>
+            <p style="color: var(--text-muted); max-width: 540px; margin: 0 auto 32px auto;" class="lead">Establish a secure, verified sync between your business software and client messaging devices in under 3 minutes.</p>
+            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+              <a href="#/signup" class="btn btn-secondary" style="padding: 12px 26px;">Connect Your Account</a>
+              <a href="#landing-steps-journey" class="btn btn-outline" style="padding: 12px 26px; background: transparent; color: #FFFFFF; border-color: rgba(255,255,255,0.25);">Learn More</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </section>
+
+    <!-- 2. LOGIN PAGE VIEW -->
+    <section id="view-login" class="view">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="split-left-content">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--brand-accent); text-transform: uppercase; tracking: 0.1em; display: block; margin-bottom: 8px;">Verification Platform</span>
+            <h2 style="font-size: 2.25rem; margin-bottom: var(--space-sm);">Connect With Confidence</h2>
+            <p style="color: var(--text-secondary);">
+              Securely authorize access to WhatsApp-powered services through Meta's official onboarding process.
+            </p>
+            <ul class="split-checklist">
+              <li class="split-checklist-item">
+                <span class="split-checklist-icon">✓</span> Secure Authentication
+              </li>
+              <li class="split-checklist-item">
+                <span class="split-checklist-icon">✓</span> Official Meta Integration
+              </li>
+              <li class="split-checklist-item">
+                <span class="split-checklist-icon">✓</span> Business Ownership Preserved
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="split-right">
+          <div class="auth-card">
+            <h3 style="margin-bottom: 4px;">Sign In to BEE</h3>
+            <p class="text-sm" style="margin-bottom: var(--space-md);">Access your business configuration control desk.</p>
+            
+            <form id="form-login" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="login-email">Email Address</label>
+                <input class="form-input" type="email" id="login-email" placeholder="owner@mybusiness.com" required>
+                <div class="form-error-msg" id="login-email-error" style="display: none;"></div>
+              </div>
+              
+              <div class="form-group" style="margin-bottom: var(--space-xs);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                  <label class="form-label" for="login-password" style="margin-bottom: 0;">Password</label>
+                  <a href="#/forgot-password" class="text-sm" style="color: var(--text-primary); font-weight: 600; text-decoration: underline;">Forgot?</a>
+                </div>
+                <input class="form-input" type="password" id="login-password" placeholder="••••••••••••" required>
+                <div class="form-error-msg" id="login-password-error" style="display: none;"></div>
+              </div>
+
+              <button class="btn btn-primary" type="submit" style="width: 100%; margin-top: var(--space-md);">
+                Sign In
+              </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: var(--space-md);">
+              <span class="text-sm">Don't have an account? <a href="#/signup" style="color: var(--text-primary); font-weight: 700; text-decoration: underline;">Create Account</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SIGNUP PAGE VIEW -->
+    <section id="view-signup" class="view">
+      <div class="split-layout">
+        <div class="split-left">
+          <div class="split-left-content">
+            <span style="font-size: 0.75rem; font-weight: 700; color: var(--brand-accent); text-transform: uppercase; tracking: 0.1em; display: block; margin-bottom: 8px;">Verification Platform</span>
+            <h2 style="font-size: 2.25rem; margin-bottom: var(--space-sm);">Connect With Confidence</h2>
+            <p style="color: var(--text-secondary);">
+              Securely authorize access to WhatsApp-powered services through Meta's official onboarding process.
+            </p>
+            <ul class="split-checklist">
+              <li class="split-checklist-item">
+                <span class="split-checklist-icon">✓</span> Secure Authentication
+              </li>
+              <li class="split-checklist-item">
+                <span class="split-checklist-icon">✓</span> Official Meta Integration
+              </li>
+              <li class="split-checklist-item">
+                <span class="split-checklist-icon">✓</span> Business Ownership Preserved
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="split-right">
+          <div class="auth-card" style="max-width: 440px;">
+            <h3 style="margin-bottom: 4px;">Get Started with BEE</h3>
+            <p class="text-sm" style="margin-bottom: var(--space-md);">Create your secure account to initiate Meta setup.</p>
+            
+            <form id="form-signup" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="signup-business-name">Business Name</label>
+                <input class="form-input" type="text" id="signup-business-name" placeholder="e.g., Elite Gym & Health" required>
+                <div class="form-error-msg" id="signup-business-name-error" style="display: none;"></div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="signup-owner-name">Owner Full Name</label>
+                <input class="form-input" type="text" id="signup-owner-name" placeholder="e.g., Alex Johnson" required>
+                <div class="form-error-msg" id="signup-owner-name-error" style="display: none;"></div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="signup-email">Email Address</label>
+                <input class="form-input" type="email" id="signup-email" placeholder="alex@gymname.com" required>
+                <div class="form-error-msg" id="signup-email-error" style="display: none;"></div>
+              </div>
+              
+              <div class="form-group" style="margin-bottom: var(--space-xs);">
+                <label class="form-label" for="signup-password">Password</label>
+                <input class="form-input" type="password" id="signup-password" placeholder="••••••••" required>
+                <div class="strength-meter-container">
+                  <div class="strength-meter-bar">
+                    <div class="strength-meter-segment" id="pw-seg-1"></div>
+                    <div class="strength-meter-segment" id="pw-seg-2"></div>
+                    <div class="strength-meter-segment" id="pw-seg-3"></div>
+                  </div>
+                  <div class="strength-meter-label" id="pw-strength-label">Password strength</div>
+                </div>
+                <div class="form-error-msg" id="signup-password-error" style="display: none;"></div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="signup-confirm-password">Confirm Password</label>
+                <input class="form-input" type="password" id="signup-confirm-password" placeholder="••••••••" required>
+                <div class="form-error-msg" id="signup-confirm-password-error" style="display: none;"></div>
+              </div>
+              
+              <div class="form-group" style="margin-bottom: var(--space-sm);">
+                <label class="form-checkbox-container" for="signup-agree">
+                  <input class="form-checkbox" type="checkbox" id="signup-agree" required>
+                  <span>I agree to the <a href="#/terms" style="color: var(--text-primary); font-weight: 600; text-decoration: underline;">Terms of Service</a> and <a href="#/privacy" style="color: var(--text-primary); font-weight: 600; text-decoration: underline;">Privacy Policy</a>.</span>
+                </label>
+                <div class="form-error-msg" id="signup-agree-error" style="display: none;"></div>
+              </div>
+
+              <button class="btn btn-primary" type="submit" style="width: 100%;">
+                Create Account
+              </button>
+            </form>
+            
+            <div style="text-align: center; margin-top: var(--space-md);">
+              <span class="text-sm">Already have an account? <a href="#/login" style="color: var(--text-primary); font-weight: 700; text-decoration: underline;">Sign In</a></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. DASHBOARD VIEW -->
+    <section id="view-dashboard" class="container view" style="padding-top: var(--space-lg); padding-bottom: var(--space-xl);">
+      <div style="margin-bottom: var(--space-md); display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap: var(--space-xs);">
+        <div>
+          <h2 id="dashboard-welcome">Welcome back</h2>
+          <p class="text-sm">Manage your WhatsApp Business Account connection parameters securely.</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; background-color: var(--bg-alternate); border: 1px solid var(--border-color); border-radius: var(--radius-pill); padding: 6px 14px; font-size: 0.8125rem;">
+          <span style="display:inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--brand-accent);"></span>
+          Console Connection Secure
+        </div>
+      </div>
+
+      <!-- ONBOARDING PROGRESS -->
+      <div id="dashboard-onboarding-progress" class="card card-guidance-accent" style="margin-bottom: var(--space-lg);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm); flex-wrap: wrap; gap: var(--space-xs);">
+          <div>
+            <h3 style="font-size: 1.125rem; margin-bottom: 2px;">Onboarding Steps</h3>
+            <p class="text-sm">Action Required: Complete Meta verification flow.</p>
+          </div>
+          <span class="badge badge-brand" id="dashboard-progress-badge">Onboarding Mode</span>
+        </div>
+        
+        <div class="onboarding-progress-timeline">
+          <div class="onboarding-step-row active">
+            <div style="display:flex; align-items:center; gap: 12px;">
+              <span style="background-color: var(--success); color: white; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6875rem;">✓</span>
+              <strong style="font-size: 0.875rem;">Account Setup Completed</strong>
+            </div>
+            <span class="text-sm" style="color: var(--success); font-weight: 600;">Done</span>
+          </div>
+
+          <div class="onboarding-step-row" id="progress-step-2">
+            <div style="display:flex; align-items:center; gap: 12px;">
+              <span style="background-color: var(--brand-secondary); border: 1.5px solid var(--text-primary); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6875rem; font-weight: 700; color: var(--text-primary);">2</span>
+              <strong style="font-size: 0.875rem;">Connect WhatsApp Account</strong>
+            </div>
+            <span class="text-sm" style="color: var(--brand-accent); font-weight: 600; cursor:pointer;" onclick="location.hash='#/connect'">Link Now →</span>
+          </div>
+
+          <div class="onboarding-step-row" id="progress-step-3" style="opacity: 0.6;">
+            <div style="display:flex; align-items:center; gap: 12px;">
+              <span style="border: 1.5px solid var(--border-color); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6875rem; font-weight: 600; color: var(--text-secondary);">3</span>
+              <strong style="font-size: 0.875rem;">Verify Account Permissions</strong>
+            </div>
+            <span class="text-sm">Pending</span>
+          </div>
+
+          <div class="onboarding-step-row" id="progress-step-4" style="opacity: 0.6;">
+            <div style="display:flex; align-items:center; gap: 12px;">
+              <span style="border: 1.5px solid var(--border-color); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6875rem; font-weight: 600; color: var(--text-secondary);">4</span>
+              <strong style="font-size: 0.875rem;">Connection Synchronized</strong>
+            </div>
+            <span class="text-sm">Inactive</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT GRID -->
+      <div class="dashboard-grid">
+        <div>
+          <!-- STATE: Disconnected Empty State -->
+          <div id="card-disconnected-state" class="card card-brand-accent" style="padding: var(--space-xl) var(--space-sm); text-align: center;">
+            <div style="background-color: var(--brand-accent-bg); width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--brand-accent); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-xs) auto;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"/></svg>
+            </div>
+            <h3>Connect Your WhatsApp Business Account</h3>
+            <p class="text-sm" style="margin-bottom: var(--space-md); max-width: 440px; margin-left: auto; margin-right: auto; margin-top: 8px;">
+              Verify and sync your telephone number using Meta's official secure Partner window. Takes under 3 minutes.
+            </p>
+            <a href="#/connect" class="btn btn-primary">
+              Continue to Meta Login
+            </a>
+          </div>
+
+          <!-- STATE: Connected Profile Info Card -->
+          <div id="card-connected-state" class="card" style="display: none; padding: var(--space-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: var(--space-sm); margin-bottom: var(--space-md);">
+              <div>
+                <span class="badge badge-success" style="margin-bottom: 6px;">Connection Active</span>
+                <h3 id="connected-waba-business-name" style="margin-bottom: 2px;">Business Account</h3>
+                <p class="text-sm" id="connected-waba-number">+1 (555) 000-0000</p>
+              </div>
+              <button class="btn btn-outline" onclick="location.hash='#/settings'" style="min-height: 34px; padding: 6px 12px; font-size: 0.8125rem;">Settings</button>
+            </div>
+
+            <!-- Health Status Indicators -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: var(--space-md);">
+              <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-input); padding: 10px; text-align: center;">
+                <div style="font-size: 0.625rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Status</div>
+                <div style="font-size: 0.875rem; font-weight: 700; color: var(--success); margin-top: 2px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                  <span class="status-dot"></span> Optimal
+                </div>
+              </div>
+              <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-input); padding: 10px; text-align: center;">
+                <div style="font-size: 0.625rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Verification</div>
+                <div style="font-size: 0.875rem; font-weight: 700; color: var(--success); margin-top: 2px;">Meta Approved</div>
+              </div>
+              <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-input); padding: 10px; text-align: center;">
+                <div style="font-size: 0.625rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Last Synced</div>
+                <div style="font-size: 0.8125rem; font-weight: 600; color: var(--text-primary); margin-top: 4px;" id="lbl-last-sync">Just now</div>
+              </div>
+            </div>
+
+            <!-- Metadata table -->
+            <div style="margin-bottom: var(--space-sm);">
+              <h4 style="margin-bottom: 8px; font-size: 0.875rem;">Account Synchronization Parameters</h4>
+              <div class="table-container">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Parameter</th>
+                      <th>Linked Value</th>
+                      <th>Sync Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Business Profile Name</td>
+                      <td id="table-waba-business-name">Profile Name</td>
+                      <td><span class="badge badge-success" style="padding: 2px 6px; font-size: 8px;">Verified</span></td>
+                    </tr>
+                    <tr>
+                      <td>Registered Number</td>
+                      <td id="table-waba-phone">+1 555-5555</td>
+                      <td><span class="badge badge-success" style="padding: 2px 6px; font-size: 8px;">Active</span></td>
+                    </tr>
+                    <tr>
+                      <td>Security Signature</td>
+                      <td>Official Meta Integration Key</td>
+                      <td><span class="badge badge-neutral" style="padding: 2px 6px; font-size: 8px;">Encrypted</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-card); padding: 16px; margin-top: 16px;">
+              <h4 style="margin-bottom: 2px; font-size: 0.875rem;">Administrative Controls</h4>
+              <p class="text-sm" style="margin-bottom: 12px;">Manage and test access sync logs.</p>
+              
+              <div style="display: flex; gap: var(--space-xs); flex-wrap: wrap;">
+                <button class="btn btn-outline" id="btn-sync-waba" style="min-height:34px; padding: 6px 12px; font-size: 0.8125rem;">
+                  Refresh Sync
+                </button>
+                <button class="btn btn-secondary" id="btn-test-message" style="min-height:34px; padding: 6px 12px; font-size: 0.8125rem;">
+                  Send Test Alert
+                </button>
+                <button class="btn btn-danger" id="btn-disconnect-waba" style="min-height:34px; padding: 6px 12px; font-size: 0.8125rem;">
+                  Disconnect Account
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <!-- Reassurance card -->
+          <div class="card card-brand-accent" style="margin-bottom: var(--space-sm);">
+            <h4 style="margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"/></svg>
+              Ownership Reassurance
+            </h4>
+            <p class="text-sm">
+              Your registered phone number, verification names, and customer lists remain 100% under your ownership. BEE handles integration tunnels only. Disconnect anytime to delete session keys.
+            </p>
+          </div>
+
+          <!-- Mini Activity Feed -->
+          <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h4 style="margin: 0; font-size: 0.875rem;">Handshake Feed</h4>
+              <a href="#/activity" style="font-size: 0.8125rem; color: var(--brand-accent); font-weight: 700; text-decoration: underline;">View All Logs</a>
+            </div>
+            
+            <div id="mini-log-container">
+              <p class="text-sm text-center" style="padding: 16px 0;">No activities registered.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. CONNECT WHATSAPP PAGE VIEW -->
+    <section id="view-connect" class="container view" style="padding-top: var(--space-lg); padding-bottom: var(--space-xl);">
+      <div style="margin-bottom: var(--space-md);">
+        <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:4px;">Verification Gateway</span>
+        <h2>Connect Your WhatsApp Business Account</h2>
+        <p class="text-sm">Link your telephone number securely via Facebook's native OAuth.</p>
+      </div>
+
+      <div class="connect-layout">
+        <div>
+          <!-- Process checklist -->
+          <div class="card" style="margin-bottom: var(--space-sm); border-color: var(--border-color);">
+            <h3 style="font-size: 1.125rem; margin-bottom: var(--space-sm);">Connection Checklist</h3>
+            <ul style="list-style: none;">
+              <li style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
+                <span style="background-color: var(--brand-accent-bg); color: var(--brand-accent); border: 1.5px solid var(--brand-accent); border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size:0.75rem;">1</span>
+                <div>
+                  <h4 style="font-size: 0.875rem; margin-bottom: 2px;">Log In With Facebook</h4>
+                  <p class="text-sm">Authorize secure connection natively inside Facebook's official window.</p>
+                </div>
+              </li>
+              <li style="display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start;">
+                <span style="background-color: var(--brand-accent-bg); color: var(--brand-accent); border: 1.5px solid var(--brand-accent); border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size:0.75rem;">2</span>
+                <div>
+                  <h4 style="font-size: 0.875rem; margin-bottom: 2px;">Choose Business Portfolio</h4>
+                  <p class="text-sm">Select the Business Profile and registered telephone number to link.</p>
+                </div>
+              </li>
+              <li style="display: flex; gap: 12px; align-items: flex-start;">
+                <span style="background-color: var(--brand-accent-bg); color: var(--brand-accent); border: 1.5px solid var(--brand-accent); border-radius: 50%; width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size:0.75rem;">3</span>
+                <div>
+                  <h4 style="font-size: 0.875rem; margin-bottom: 2px;">Verify Permissions</h4>
+                  <p class="text-sm">Review data boundary parameters. We never request passwords.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- FAQ previews -->
+          <h4 style="margin-bottom: 8px;">Frequently Asked Connection Questions</h4>
+          <div class="faq-container" style="max-width: 100%; margin-top: 0;" id="connect-faq-group">
+            <div class="accordion">
+              <button class="accordion-header" aria-expanded="false" aria-controls="conn-faq-1">
+                <span>Who owns my registered WhatsApp number?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="conn-faq-1" role="region">
+                <p>You maintain 100% ownership. BEE acts as a secure integration tunnel. We have zero billing access or password visibility.</p>
+              </div>
+            </div>
+            <div class="accordion">
+              <button class="accordion-header" aria-expanded="false" aria-controls="conn-faq-2">
+                <span>Can I revoke BEE's access?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="conn-faq-2" role="region">
+                <p>Yes. Disconnecting takes one click in your settings dashboard, which instantly deletes authorization keys from our logs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card card-brand-accent" style="text-align: center; padding: var(--space-md); margin-bottom: var(--space-sm);">
+            <div style="background-color: var(--brand-accent-bg); width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--brand-accent); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-xs) auto;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"/></svg>
+            </div>
+            
+            <h3 style="margin-bottom: 2px;">Setup Time: 2–3 Min</h3>
+            <p class="text-sm" style="margin-bottom: var(--space-md);">Opens the official secure Meta Platform login window.</p>
+            
+            <button class="btn btn-primary" id="btn-trigger-meta-signup" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <svg width="18" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M11.6667 1.66663C10.7333 1.66663 9.87333 2.12663 9.33333 2.83996L8.00001 4.6133L6.66668 2.83996C6.12668 2.12663 5.26668 1.66663 4.33335 1.66663C2.86001 1.66663 1.66669 2.85996 1.66669 4.3333C1.66669 5.80663 2.86001 6.99996 4.33335 6.99996C5.26668 6.99996 6.12668 6.53996 6.66668 5.82663L8.00001 4.0533L9.33333 5.82663C9.87333 6.53996 10.7333 6.99996 11.6667 6.99996C13.14 6.99996 14.3333 5.80663 14.3333 4.3333C14.3333 2.85996 13.14 1.66663 11.6667 1.66663ZM11.6667 8.33329C10.1667 8.33329 8.84668 7.57996 8.00001 6.44663C7.15334 7.57996 5.83335 8.33329 4.33335 8.33329C2.12668 8.33329 0.333359 6.53996 0.333359 4.3333C0.333359 2.12663 2.12668 0.333298 4.33335 0.333298C5.83335 0.333298 7.15334 1.08663 8.00001 2.21996C8.84668 1.08663 10.1667 0.333298 11.6667 0.333298C13.8733 0.333298 15.6667 2.12663 15.6667 4.3333C15.6667 6.53996 13.8733 8.33329 11.6667 8.33329Z" fill="#FFF"/></svg>
+              Continue With Meta
+            </button>
+            
+            <p class="text-sm" style="margin-top: 12px; opacity: 0.85; line-height: 1.4;">
+              We never see your Facebook login details. Authentication processes natively inside Facebook.
+            </p>
+          </div>
+
+          <div class="card" style="border: 1px solid var(--border-color); background-color: var(--bg-primary);">
+            <h4 style="margin-bottom: 6px; font-size:0.875rem; display: flex; align-items: center; gap: 8px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--brand-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"/></svg>
+              Security Guarantee
+            </h4>
+            <p class="text-sm">
+              Linked permissions can be updated, modified, or completely revoked at any moment through Facebook Settings or directly in your BEE console settings tab.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SUCCESS VIEW -->
+    <section id="view-success" class="container view" style="padding-top: var(--space-xl); padding-bottom: var(--space-xl); text-align: center;">
+      <div style="max-width: 500px; margin: 0 auto;">
+        
+        <div style="background-color: var(--success-bg); width: 80px; height: 80px; border-radius: 50%; border: 1.5px solid var(--success); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-sm) auto;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17L4 12"/></svg>
+        </div>
+
+        <h1 style="margin-bottom: 6px; font-size: 2.25rem;">WhatsApp Connection Synced</h1>
+        <p style="margin-bottom: 24px;">Your business connection is verified, active, and fully configured.</p>
+
+        <div class="card card-brand-accent" style="margin-bottom: 24px; text-align: left; padding: var(--space-sm);">
+          <h4 style="margin-bottom: 12px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; font-size: 0.875rem;">Connection Profile Summary</h4>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; font-size: 0.8125rem;">
+            <div>
+              <span class="text-sm">Business Name:</span>
+              <div class="text-bold" id="success-display-business-name" style="color:var(--text-primary);">Elite Fitness Gym</div>
+            </div>
+            <div>
+              <span class="text-sm">Linked Phone Number:</span>
+              <div class="text-bold" id="success-display-number" style="color:var(--text-primary);">+1 (555) 019-2831</div>
+            </div>
+            <div>
+              <span class="text-sm">Authorized Date:</span>
+              <div class="text-bold" id="success-display-date" style="color:var(--text-primary);">June 17, 2026</div>
+            </div>
+            <div>
+              <span class="text-sm">Status Indicator:</span>
+              <div class="text-bold" style="color: var(--success);">✓ Active & Synced</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: var(--space-xs); justify-content: center;">
+          <a href="#/dashboard" class="btn btn-primary">Go To Console</a>
+          <a href="#/settings" class="btn btn-outline">Manage Connection</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. PERMISSIONS VIEW -->
+    <section id="view-permissions" class="container view" style="padding-top: var(--space-lg); padding-bottom: var(--space-xl);">
+      <div style="margin-bottom: var(--space-md);">
+        <span style="font-size:0.75rem; font-weight:700; color:var(--brand-accent); text-transform:uppercase; tracking: 0.1em; display:block; margin-bottom:4px;">Authorization Log</span>
+        <h2>Account Connection Permissions</h2>
+        <p class="text-sm">Review access boundaries between BEE and your official Meta accounts.</p>
+      </div>
+
+      <div class="permissions-grid">
+        <div class="permissions-column" style="border-top: 3px solid var(--success);">
+          <h3 style="font-size: 1.125rem; color: var(--success); margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+            What BEE Can Access
+          </h3>
+          
+          <ul style="list-style: none;">
+            <li class="permissions-list-item">
+              <span style="color: var(--success); font-weight: bold; font-size: 1.125rem; line-height: 1;">✓</span>
+              <div>
+                <strong style="font-size: 0.875rem; color: var(--text-primary);">Read WhatsApp Account Settings</strong>
+                <p class="text-sm">Verify WhatsApp status, profile display name details, and official verification states.</p>
+              </div>
+            </li>
+            <li class="permissions-list-item">
+              <span style="color: var(--success); font-weight: bold; font-size: 1.125rem; line-height: 1;">✓</span>
+              <div>
+                <strong style="font-size: 0.875rem; color: var(--text-primary);">Transmit Pre-Approved Templates</strong>
+                <p class="text-sm">Send template transactional updates and notifications to contacts who chose to receive them.</p>
+              </div>
+            </li>
+            <li class="permissions-list-item">
+              <span style="color: var(--success); font-weight: bold; font-size: 1.125rem; line-height: 1;">✓</span>
+              <div>
+                <strong style="font-size: 0.875rem; color: var(--text-primary);">Monitor Message Sync Logs</strong>
+                <p class="text-sm">Audit log message states (Delivered, Read) of outbound templates.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="permissions-column" style="border-top: 3px solid var(--error);">
+          <h3 style="font-size: 1.125rem; color: var(--error); margin-bottom: var(--space-sm); display: flex; align-items: center; gap: 8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+            What BEE Cannot Access
+          </h3>
+          
+          <ul style="list-style: none;">
+            <li class="permissions-list-item">
+              <span style="color: var(--error); font-weight: bold; font-size: 1.125rem; line-height: 1;">✕</span>
+              <div>
+                <strong style="font-size: 0.875rem; color: var(--text-primary);">Access Facebook Passwords</strong>
+                <p class="text-sm">BEE never sees or handles your Facebook administrative account passwords.</p>
+              </div>
+            </li>
+            <li class="permissions-list-item">
+              <span style="color: var(--error); font-weight: bold; font-size: 1.125rem; line-height: 1;">✕</span>
+              <div>
+                <strong style="font-size: 0.875rem; color: var(--text-primary);">Read Personal Text Conversations</strong>
+                <p class="text-sm">Private chat logs and databases are strictly encrypted. We cannot view them.</p>
+              </div>
+            </li>
+            <li class="permissions-list-item">
+              <span style="color: var(--error); font-weight: bold; font-size: 1.125rem; line-height: 1;">✕</span>
+              <div>
+                <strong style="font-size: 0.875rem; color: var(--text-primary);">Access Meta Billing Cards</strong>
+                <p class="text-sm">We have zero visibility into ad accounts or billing cards on Facebook.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card text-center" style="margin-top: var(--space-lg); border-color: var(--brand-accent);">
+        <h4>Need to revoke permissions?</h4>
+        <p class="text-sm" style="margin-bottom: var(--space-xs); margin-top: 4px;">You can instantly terminate the connection between BEE and your WhatsApp number at any time.</p>
+        <button class="btn btn-secondary" onclick="location.hash='#/settings?tab=account'">Manage Access Authorizations</button>
+      </div>
+    </section>
+
+    <!-- 8. ACTIVITY LOG VIEW -->
+    <section id="view-activity" class="container view" style="padding-top: var(--space-lg); padding-bottom: var(--space-xl);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: var(--space-md); flex-wrap: wrap; gap: var(--space-xs);">
+        <div>
+          <h2>Activity Log Timeline</h2>
+          <p class="text-sm">Monitor secure synchronization and authorization handshake audits in real-time.</p>
+        </div>
+        
+        <div style="display: flex; gap: var(--space-xs); align-items: center; flex-wrap: wrap;">
+          <input type="text" id="log-search" class="form-input" placeholder="Search logs..." style="min-height: 38px; padding: 6px 12px; font-size: 0.8125rem; width: 160px;">
+          
+          <select id="log-filter-status" class="form-input" style="min-height: 38px; padding: 6px 12px; font-size: 0.8125rem;">
+            <option value="ALL">All Events</option>
+            <option value="SUCCESS">Success Only</option>
+            <option value="WARNING">Warnings</option>
+            <option value="ERROR">Errors</option>
+          </select>
+          
+          <button class="btn btn-outline" id="btn-clear-logs" style="min-height: 38px; padding: 6px 12px; font-size: 0.8125rem;">Clear Logs</button>
+        </div>
+      </div>
+
+      <div class="card" style="padding: var(--space-sm);">
+        <div class="timeline" id="log-timeline-container">
+          <!-- logs inserted dynamically -->
+        </div>
+        
+        <div id="log-empty-state" style="display: none; text-align: center; padding: var(--space-xl) 0;">
+          <div style="background-color: var(--bg-primary); width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-xs) auto;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3>No Sync Activity</h3>
+          <p class="text-sm">Connect your WhatsApp Business Account to view system connection audits.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. SETTINGS VIEW -->
+    <section id="view-settings" class="container view" style="padding-top: var(--space-lg); padding-bottom: var(--space-xl);">
+      <div style="margin-bottom: var(--space-md);">
+        <h2>Account Settings</h2>
+        <p class="text-sm">Manage business details, profile configurations, and secure access permissions.</p>
+      </div>
+
+      <!-- Settings Tab Nav -->
+      <div class="tab-container" role="tablist">
+        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="tab-profile" id="tab-btn-profile">Business Profile</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-security" id="tab-btn-security">Security Keys</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-notifications" id="tab-btn-notifications">Notifications</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-account" id="tab-btn-account">Connection Settings</button>
+      </div>
+
+      <!-- Tab Content 1: Profile -->
+      <div class="tab-content active" id="tab-profile" role="tabpanel" aria-labelledby="tab-btn-profile">
+        <div class="card" style="max-width: 580px;">
+          <h3 style="margin-bottom: var(--space-sm); font-size: 1.125rem;">Business Profile Details</h3>
+          <form id="form-settings-profile" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="set-business-name">Registered Business Name</label>
+              <input class="form-input" type="text" id="set-business-name" value="Elite Fitness Gym" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="set-owner-name">Owner Full Name</label>
+              <input class="form-input" type="text" id="set-owner-name" value="Alex Johnson" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="set-email">Account Notification Email</label>
+              <input class="form-input" type="email" id="set-email" value="alex@gymname.com" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Save Profile Changes</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tab Content 2: Security & Keys -->
+      <div class="tab-content" id="tab-security" role="tabpanel" aria-labelledby="tab-btn-security">
+        <div class="card" style="max-width: 580px;">
+          <h3 style="margin-bottom: var(--space-sm); font-size: 1.125rem;">Update Password</h3>
+          <form id="form-settings-security" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="sec-current-password">Current Password</label>
+              <input class="form-input" type="password" id="sec-current-password" placeholder="••••••••" required>
+              <div class="form-error-msg" id="sec-current-password-error" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sec-new-password">New Password</label>
+              <input class="form-input" type="password" id="sec-new-password" placeholder="••••••••" required>
+              <div class="form-error-msg" id="sec-new-password-error" style="display: none;"></div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="sec-confirm-password">Confirm New Password</label>
+              <input class="form-input" type="password" id="sec-confirm-password" placeholder="••••••••" required>
+              <div class="form-error-msg" id="sec-confirm-password-error" style="display: none;"></div>
+            </div>
+            <button class="btn btn-primary" type="submit">Update Password</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tab Content 3: Notifications -->
+      <div class="tab-content" id="tab-notifications" role="tabpanel" aria-labelledby="tab-btn-notifications">
+        <div class="card" style="max-width: 580px;">
+          <h3 style="margin-bottom: var(--space-sm); font-size: 1.125rem;">Notification Configurations</h3>
+          <form id="form-settings-notifications">
+            <div class="form-group">
+              <label class="form-checkbox-container" style="margin-bottom: var(--space-sm);">
+                <input class="form-checkbox" type="checkbox" checked>
+                <div>
+                  <strong style="color: var(--text-primary); display: block; font-size:0.875rem;">Connection Drop Alerts</strong>
+                  <span class="text-sm">Receive email notices if your Meta verification requires review or access expires.</span>
+                </div>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-checkbox-container" style="margin-bottom: var(--space-sm);">
+                <input class="form-checkbox" type="checkbox" checked>
+                <div>
+                  <strong style="color: var(--text-primary); display: block; font-size:0.875rem;">Synchronization Status Summaries</strong>
+                  <span class="text-sm">Receive weekly audit summaries detailing connection stability and activity logs.</span>
+                </div>
+              </label>
+            </div>
+            <button class="btn btn-primary" type="submit">Save Preferences</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tab Content 4: Connection Management -->
+      <div class="tab-content" id="tab-account" role="tabpanel" aria-labelledby="tab-btn-account">
+        <div class="card" style="max-width: 580px;">
+          <h3 style="margin-bottom: 2px; font-size: 1.125rem;">Meta WABA Authorization</h3>
+          <p class="text-sm" style="margin-bottom: var(--space-sm);">Review active connections or disconnect WhatsApp integration completely.</p>
+          
+          <div id="settings-waba-connected-view" style="display: none; background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-card); padding: var(--space-sm); margin-bottom: var(--space-sm);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-xs); flex-wrap: wrap; gap: 8px;">
+              <div>
+                <strong id="settings-waba-business-name" style="font-size: 1.0rem; color: var(--text-primary); display: block;">Elite Gym WhatsApp</strong>
+                <span id="settings-waba-number" class="text-sm">+1 (555) 019-2831</span>
+              </div>
+              <span class="badge badge-success">Active & Secure</span>
+            </div>
+            
+            <div style="display: flex; gap: var(--space-xs); flex-wrap: wrap; margin-top: 12px;">
+              <button class="btn btn-outline" id="btn-settings-sync" style="min-height: 38px; padding: 6px 12px; font-size: 0.8125rem;">Refresh Permissions</button>
+              <button class="btn btn-danger" id="btn-settings-disconnect" style="min-height: 38px; padding: 6px 12px; font-size: 0.8125rem;">Disconnect WhatsApp Account</button>
+            </div>
+          </div>
+          
+          <div id="settings-waba-disconnected-view" style="background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-card); padding: var(--space-sm); text-align: center; margin-bottom: var(--space-sm);">
+            <p style="font-weight: 600; margin-bottom: var(--space-xs);">No WhatsApp Business Connection active.</p>
+            <a href="#/connect" class="btn btn-primary">Connect WhatsApp Business Account</a>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-color); padding-top: var(--space-sm);">
+            <h4 style="margin-bottom: var(--space-xs);">Privacy & Safety Notices</h4>
+            <p class="text-sm">
+              Your security and privacy are fully protected under Meta Partner integrations standards. Handshake tokens expire automatically after a set period, and billing information or private profiles are never exposed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. SUPPORT PAGE VIEW -->
+    <section id="view-support" class="container view" style="padding-top: var(--space-lg); padding-bottom: var(--space-xl);">
+      <div style="margin-bottom: var(--space-md);">
+        <h2>Verification Support Hub</h2>
+        <p class="text-sm">Get real-time answers or open a verification support ticket with onboarding specialists.</p>
+      </div>
+
+      <div class="connect-layout">
+        <div>
+          <div style="margin-bottom: var(--space-md);">
+            <h3 style="font-size: 1.125rem; margin-bottom: var(--space-xs);">Common Onboarding Issues</h3>
+            <p class="text-sm">Search through verified solutions for small business owners.</p>
+            <input type="text" id="faq-search" class="form-input" placeholder="Type keywords e.g., 'Facebook Page', 'Business name'..." style="width: 100%; margin-top: var(--space-xs);">
+          </div>
+          
+          <div id="support-faq-list">
+            <div class="accordion support-faq-item">
+              <button class="accordion-header" aria-expanded="false" aria-controls="sup-faq-1">
+                <span>My number is already connected to personal WhatsApp?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="sup-faq-1" role="region">
+                <p>If your number is linked to a personal or standard WhatsApp Business app, you must delete the profile within that app before connecting it here. Meta policies prohibit a phone number from running on the mobile app and Cloud Business gateway simultaneously.</p>
+              </div>
+            </div>
+            
+            <div class="accordion support-faq-item">
+              <button class="accordion-header" aria-expanded="false" aria-controls="sup-faq-2">
+                <span>I cannot find my Meta Business Manager profile?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="sup-faq-2" role="region">
+                <p>Ensure that the Facebook profile you log into owns "Full Control" rights to the Business Manager container on Facebook Settings. Standard roles are insufficient.</p>
+              </div>
+            </div>
+            
+            <div class="accordion support-faq-item">
+              <button class="accordion-header" aria-expanded="false" aria-controls="sup-faq-3">
+                <span>Why did the verification process fail?</span>
+                <span class="accordion-icon">+</span>
+              </button>
+              <div class="accordion-content" id="sup-faq-3" role="region">
+                <p>Failure typically occurs if permissions were deselected during Meta signup, the verification SMS code was incorrect, or the phone number violates Meta's Commerce Policy. Verify your number is active and try again.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" id="card-support-ticket-form">
+            <h3 style="font-size: 1.125rem; margin-bottom: 2px;">Submit Support Request</h3>
+            <p class="text-sm" style="margin-bottom: var(--space-sm);">Response SLA: Under 2 hours</p>
+            
+            <div id="support-unauth-warning" style="background-color: var(--warning-bg); border: 1.5px solid var(--warning); border-radius: 8px; padding: 12px; margin-bottom: 16px; font-size: 0.8125rem; font-weight: 500;">
+              Please <a href="#/login" style="color:var(--text-primary); font-weight:700; text-decoration:underline;">Sign In</a> to open a verification ticket with support specialists.
+            </div>
+
+            <form id="form-support-ticket" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="ticket-phone">Your Business Phone Number</label>
+                <input class="form-input" type="tel" id="ticket-phone" placeholder="+1 (555) 000-0000" required>
+                <div class="form-error-msg" id="ticket-phone-error" style="display: none;"></div>
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label" for="ticket-desc">Detailed Description of Onboarding Issue</label>
+                <textarea class="form-input" id="ticket-desc" rows="4" placeholder="I received an error code stating page administrators must review my request..." style="resize: vertical; min-height: 96px; padding: 12px;" required></textarea>
+                <div class="form-error-msg" id="ticket-desc-error" style="display: none;"></div>
+              </div>
+
+              <button class="btn btn-primary" type="submit" id="btn-support-submit" style="width: 100%;">Submit Support Ticket</button>
+            </form>
+          </div>
+
+          <div class="card card-brand-accent" id="card-support-ticket-success" style="display: none; text-align: center; padding: var(--space-md);">
+            <div style="background-color: var(--success-bg); width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--success); display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-xs) auto;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17L4 12"/></svg>
+            </div>
+            <h3 id="ticket-success-number" style="font-size:1.125rem;">Ticket Submitted</h3>
+            <p class="text-sm" style="margin-bottom: var(--space-md); margin-top: 4px;">Our WABA integration specialists respond in under 2 hours. Notification sent to your email.</p>
+            <button class="btn btn-outline" id="btn-support-new-ticket" style="width: 100%;">Create New Ticket</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       GLOBAL FOOTER
+       ========================================================================== -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col" style="grid-column: span 2;">
+          <a href="#/" class="navbar-logo-center" style="color: #FFFFFF; font-size: 1.75rem; margin-bottom: 12px;">
+            BEE<span class="navbar-logo-dot"></span>
+          </a>
+          <p style="color: var(--text-muted); font-size: 0.875rem; max-width: 280px; line-height: 1.6;">
+            The secure gateway bridge connecting business platforms directly to Meta's verified WhatsApp services.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-title">Platform</span>
+          <ul class="footer-col-links">
+            <li><a href="#/login">Connection Console</a></li>
+            <li><a href="#/permissions">Boundaries Map</a></li>
+            <li><a href="#/activity">Activity Stream</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-title">Support</span>
+          <ul class="footer-col-links">
+            <li><a href="#/support">Support Desk</a></li>
+            <li><a href="#landing-faq">Common FAQs</a></li>
+            <li><a href="#/contact">Contact Team</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-title">Legal</span>
+          <ul class="footer-col-links">
+            <li><a href="#/privacy">Privacy Policy</a></li>
+            <li><a href="#/terms">Terms Of Service</a></li>
+            <li><a href="#/compliance">Meta Guidelines</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <span class="footer-col-title">Company</span>
+          <ul class="footer-col-links">
+            <li><a href="#/about">About Us</a></li>
+            <li><a href="#/security">Security Desk</a></li>
+            <li><a href="#/partners">Meta Partners</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span style="font-family: var(--font-body); font-weight: 400; font-size: 0.75rem; color: var(--text-muted);">
+          &copy; 2026 BEE Platform. All rights reserved.
+        </span>
+
+        <div class="footer-bottom-links">
+          <a href="#/privacy">Privacy</a>
+          <a href="#/terms">Terms</a>
+          <a href="#/cookies">Cookies Policy</a>
+        </div>
+
+        <div class="footer-status">
+          <span class="status-dot"></span>
+          <span style="color: var(--text-muted); font-size:0.75rem;">All systems operational</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Inactivity modal -->
+  <div class="modal-overlay" id="inactivity-modal" role="dialog" aria-modal="true" aria-labelledby="inactivity-modal-title" aria-describedby="inactivity-modal-desc">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="inactivity-modal-title" style="font-size: 1.125rem; display: flex; align-items: center; gap: 8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Security Session Warning
+        </h3>
+      </div>
+      <div class="modal-body">
+        <p id="inactivity-modal-desc" style="font-size: 0.875rem; color:var(--text-secondary);">
+          For your safety, accounts lock automatically after 30 minutes of inactivity. You will be signed out in <span id="inactivity-countdown" style="font-weight: 700; color: var(--error);">120</span> seconds.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost" id="btn-inactivity-logout" style="min-height: 38px;">Sign Out</button>
+        <button class="btn btn-primary" id="btn-inactivity-extend" style="min-height: 38px;">Extend Session</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Meta Simulator modal -->
+  <div class="modal-overlay" id="meta-signup-modal" role="dialog" aria-modal="true" aria-labelledby="meta-modal-title" style="padding: var(--space-sm);">
+    <div class="modal-container" style="max-width: 540px; border: 1.5px solid var(--border-color); box-shadow: var(--shadow-high);">
+      
+      <div style="background-color: #F0F2F5; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #D3D6DB;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <span id="meta-modal-title" style="font-family: var(--font-body); font-weight: 600; font-size: 0.875rem; color: #1C1E21;">Connect with Meta Platforms</span>
+        </div>
+        <button id="btn-meta-close" aria-label="Close connection portal" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: #606770;">×</button>
+      </div>
+
+      <div class="modal-body" style="padding: var(--space-sm); background-color: #FFFFFF;" id="meta-modal-step-1">
+        <div style="text-align: center; margin-bottom: 16px;">
+          <div style="background-color: #E7F3FF; width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="#1877F2"/></svg>
+          </div>
+          <h3 style="font-family: var(--font-body); font-weight: 600; color: #1C1E21; font-size: 1.0rem;">Link WhatsApp Profile to BEE</h3>
+          <p class="text-sm" style="color: #606770; margin-top: 4px;">Authorize BEE to establish message transmission parameters.</p>
+        </div>
+
+        <div style="background-color: #F5F6F7; border: 1px solid #E5E5E5; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+          <h4 style="font-family: var(--font-body); font-size: 0.75rem; color: #606770; margin-bottom: 4px; text-transform:none;">LOGGED IN FACEBOOK ACCOUNT:</h4>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="background-color: #8C949E; color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size:0.8125rem;" id="meta-profile-initial">B</div>
+            <div>
+              <strong style="color: #1C1E21; font-size: 0.8125rem; display: block;" id="meta-profile-name">Business Owner</strong>
+              <span class="text-sm" style="color: #606770;" id="meta-profile-email">owner@business.com</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" style="font-family: var(--font-body); font-size: 0.75rem; color: #606770;" for="meta-waba-select">Meta Business Account Profile</label>
+          <select id="meta-waba-select" class="form-input" style="min-height: 36px; font-size: 0.8125rem; border-color: #CCD0D5;">
+            <option value="">-- Choose Account Container --</option>
+            <option value="Elite Fitness Corp" selected>Elite Fitness Corp (Business Portfolio)</option>
+            <option value="Spa Wellness Partners">Spa Wellness Partners (Business Portfolio)</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label class="form-label" style="font-family: var(--font-body); font-size: 0.75rem; color: #606770;" for="meta-phone-select">Registered WhatsApp Business Phone Number</label>
+          <select id="meta-phone-select" class="form-input" style="min-height: 36px; font-size: 0.8125rem; border-color: #CCD0D5;">
+            <option value="">-- Choose Verified Number --</option>
+            <option value="+1 (555) 019-2831" selected>+1 (555) 019-2831 (Active Gym Line)</option>
+            <option value="+1 (555) 831-2940">+1 (555) 831-2940 (Spa Counter Line)</option>
+          </select>
+        </div>
+
+        <div style="border-top: 1px solid #E5E5E5; margin-top: 16px; padding-top: 12px;">
+          <h4 style="font-family: var(--font-body); font-size: 0.75rem; color: #606770; margin-bottom: 8px; text-transform:none;">Permissions requested by BEE (Partner ID: 89412-BEE):</h4>
+          
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label style="display: flex; gap: 8px; font-size: 0.75rem; color: #1c1e21; cursor: pointer; align-items: center;">
+              <input type="checkbox" class="form-checkbox" checked id="meta-perm-1" style="width: 14px; height: 14px;">
+              <span>Send and manage message templates on your behalf</span>
+            </label>
+            <label style="display: flex; gap: 8px; font-size: 0.75rem; color: #1c1e21; cursor: pointer; align-items: center;">
+              <input type="checkbox" class="form-checkbox" checked id="meta-perm-2" style="width: 14px; height: 14px;">
+              <span>Access business profile settings, names, and metrics</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-error-msg" id="meta-popup-error" style="display: none; background-color: var(--error-bg); border: 1px solid var(--error); border-radius: 6px; padding: 10px; margin-top: 12px; font-size: 0.75rem;">
+          Permissions deselect check. Please select all permissions to complete setup.
+        </div>
+      </div>
+
+      <!-- Popup footer -->
+      <div class="modal-footer" style="background-color: #F0F2F5; border-top: 1px solid #D3D6DB; padding: 12px 20px;">
+        <button class="btn btn-outline" id="btn-meta-cancel" style="min-height: 32px; padding: 4px 12px; border-color: #CCD0D5; font-size: 0.8125rem; background-color: #FFF; font-weight: 500;">Cancel</button>
+        <button class="btn btn-primary" id="btn-meta-approve" style="min-height: 32px; padding: 4px 12px; font-size: 0.8125rem; background-color: #1877F2; border-color: #1877F2; color: #FFF; font-weight: 600;">
+          Approve & Connect
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+# Root .gitignore for Atom Automation project
+
+# Secrets and environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+*.pem
+*.key
+secrets/
+ngrok_tunnels.yml
+
+# Editor/OS noise
+.DS_Store
+.vscode/
+.idea/
+
+# Database/local dev artifacts
+*.sqlite3
+*.db
+*.log
+
+# Backend specific (fallback in case it runs at root)
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Frontend specific (fallback)
+node_modules/
+.next/
+out/
+build/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts

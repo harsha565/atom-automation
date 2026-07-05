@@ -1,0 +1,29 @@
+# Python specific ignores
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+*.log
+
+# Secrets and environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+*.pem
+*.key
+secrets/
+
+# Database/local dev artifacts
+*.sqlite3
+*.db
+
+# Editor/OS noise
+.DS_Store
+.vscode/
+.idea/
