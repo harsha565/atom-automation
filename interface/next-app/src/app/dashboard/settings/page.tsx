@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 import { useApp } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
-import { ShieldCheck, User, Bell, Trash2, Key, Info, AlertTriangle } from "lucide-react";
+import { ShieldCheck, User, Bell, Trash2, Key, Info, AlertTriangle, CheckCircle2 } from "lucide-react";
+import api from "@/lib/api";
 
 export default function SettingsPage() {
   const { user, logout, deleteAccount, addLog } = useApp();
@@ -15,22 +16,62 @@ export default function SettingsPage() {
   const [isDeleting, setIsDeleting] = useState(false);
 
   // Profile Form States
-  const [businessName, setBusinessName] = useState(user?.businessName || "Bloom Wellness");
-  const [email, setEmail] = useState(user?.email || "owner@bloom.com");
+  const [businessName, setBusinessName] = useState(
+    user?.businessName || ""
+  )
+  const [email, setEmail] = useState(
+    user?.email || ""
+  )
   const [isSaving, setIsSaving] = useState(false);
 
   // Notifications Toggles
   const [notifyFail, setNotifyFail] = useState(true);
   const [notifySync, setNotifySync] = useState(false);
 
-  const handleSaveProfile = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSaving(true);
-    setTimeout(() => {
-      setIsSaving(false);
-      addLog("success", "Settings Updated", "Business profile settings saved securely.");
-    }, 1000);
-  };
+  const [ownerName, setOwnerName] = useState("")
+  const [phone, setPhone] = useState("")
+  const [saveSuccess, setSaveSuccess] = useState(false)
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await api.get("/api/v1/gym")
+        const gym = res.data.data
+        if (gym?.gym_name) setBusinessName(gym.gym_name)
+        if (gym?.owner_name) setOwnerName(gym.owner_name)
+        if (gym?.phone) setPhone(gym.phone)
+      } catch (err) {
+        console.error("Failed to fetch gym profile:", err)
+      }
+    }
+    fetchProfile()
+  }, [])
+
+  const handleSaveProfile = async (
+    e: React.FormEvent
+  ) => {
+    e.preventDefault()
+    setIsSaving(true)
+    setSaveSuccess(false)
+    try {
+      await api.put("/api/v1/gym", {
+        gym_name: businessName,
+        owner_name: ownerName,
+        phone: phone,
+      })
+      setSaveSuccess(true)
+      addLog(
+        "success",
+        "Settings Updated",
+        "Business profile settings saved successfully."
+      )
+    } catch (err) {
+      console.error("Failed to save profile:", err)
+      addLog("error", "Save Failed", "Could not save profile.")
+    } finally {
+      setIsSaving(false)
+    }
+  }
 
   const handleDeleteAccount = () => {
     setDeleteConfirmText("");
@@ -109,15 +150,48 @@ export default function SettingsPage() {
 
               <div className="flex flex-col gap-1.5">
                 <label className="font-sans font-semibold text-xs text-gray-700 tracking-wide uppercase">
+                  Owner Name
+                </label>
+                <input
+                  type="text"
+                  value={ownerName}
+                  onChange={(e) => setOwnerName(e.target.value)}
+                  className="w-full bg-[#F8F8FF] border border-gray-200 px-4 py-3 rounded-xl text-sm font-sans text-[#010203] focus:outline-none focus:ring-2 focus:ring-[#D8524B]/30 focus:border-[#D8524B]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="font-sans font-semibold text-xs text-gray-700 tracking-wide uppercase">
+                  Phone Number
+                </label>
+                <input
+                  type="text"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full bg-[#F8F8FF] border border-gray-200 px-4 py-3 rounded-xl text-sm font-sans text-[#010203] focus:outline-none focus:ring-2 focus:ring-[#D8524B]/30 focus:border-[#D8524B]"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="font-sans font-semibold text-xs text-gray-700 tracking-wide uppercase">
                   Business Contact Email
                 </label>
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#F8F8FF] border border-gray-200 px-4 py-3 rounded-xl text-sm font-sans text-[#010203] focus:outline-none focus:ring-2 focus:ring-[#D8524B]/30 focus:border-[#D8524B]"
+                  disabled
+                  className="w-full bg-[#F8F8FF] border border-gray-200 px-4 py-3 rounded-xl text-sm font-sans text-[#010203] focus:outline-none focus:ring-2 focus:ring-[#D8524B]/30 focus:border-[#D8524B] disabled:opacity-50 disabled:cursor-not-allowed"
                 />
               </div>
+
+              {saveSuccess && (
+                <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                  <p className="text-xs font-sans text-emerald-700">
+                    Profile saved successfully.
+                  </p>
+                </div>
+              )}
 
               <button
                 type="submit"

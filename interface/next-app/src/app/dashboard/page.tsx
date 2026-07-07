@@ -15,6 +15,7 @@ export default function DashboardOverviewPage() {
   const [automationStatus, setAutomationStatus] =
     useState<AutomationStatus | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [greeting, setGreeting] = useState("Good morning");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +38,16 @@ export default function DashboardOverviewPage() {
       }
     };
     fetchData();
+
+    // Determine greeting based on current time
+    const hour = new Date().getHours();
+    if (hour < 12) {
+      setGreeting("Good morning");
+    } else if (hour < 18) {
+      setGreeting("Good afternoon");
+    } else {
+      setGreeting("Good evening");
+    }
   }, []);
 
   // Count active automations
@@ -91,7 +102,7 @@ export default function DashboardOverviewPage() {
       {/* Page Header */}
       <div>
         <h1 className="font-heading font-extrabold text-2xl sm:text-3xl text-[#010203]">
-          Good morning, {user?.businessName || "Business Owner"} 👋
+          {greeting}, {user?.businessName || "Business Owner"} 👋
         </h1>
         <p className="font-sans text-sm text-gray-500 mt-1">
           Here is your communication automation status overview.

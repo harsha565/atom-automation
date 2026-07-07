@@ -27,9 +27,22 @@ export const authService = {
 
   async logout() {
     try {
-      await api.post("/api/v1/auth/logout")
+      const refreshToken = localStorage.getItem("buddy_refresh_token")
+      await api.post("/api/v1/auth/logout", {
+        refresh_token: refreshToken || "",
+      })
     } catch {
       // Always clear tokens regardless
+    }
+  },
+
+  async logoutWithToken(refreshToken: string) {
+    try {
+      await api.post("/api/v1/auth/logout", {
+        refresh_token: refreshToken,
+      })
+    } catch {
+      // Always clear regardless
     }
   },
 

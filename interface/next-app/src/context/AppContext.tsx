@@ -3,7 +3,6 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { authService } from "@/services/authService"
 import { setTokens, clearTokens } from "@/lib/auth"
-import { supabase } from "@/lib/supabaseClient"
 
 export interface User {
   businessName: string;
@@ -109,74 +108,29 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
-  // Listen to Supabase auth state changes
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session) {
-        setTokens(session.access_token, session.refresh_token || "")
-        const email = session.user.email || ""
-        const businessName = session.user.user_metadata?.businessName || 
-                             session.user.user_metadata?.gym_name || 
-                             email;
-        const userData = {
-          businessName,
-          email,
-        }
-        setUser(userData)
-        setIsAuthenticated(true)
-        persist("buddy_user", userData)
-        persist("buddy_auth", "true")
-        
-        // Set cookie flag for middleware
-        document.cookie = `buddy_auth_flag=true; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax`
-      } else {
-        if (event === "SIGNED_OUT") {
-          clearTokens()
-          setIsAuthenticated(false)
-          setUser(null)
-          localStorage.removeItem("buddy_user")
-          localStorage.removeItem("buddy_auth")
-          document.cookie = "buddy_auth_flag=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
-        }
-      }
-    })
 
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [])
 
   const persist = (key: string, value: any) => {
     localStorage.setItem(key, typeof value === "string" ? value : JSON.stringify(value));
   };
 
   const login = async (email: string, password?: string) => {
-    if (password) {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-      if (error) throw error
-      
-      if (data.session) {
-        setTokens(data.session.access_token, data.session.refresh_token || "")
-        const userData = {
-          businessName: data.user.user_metadata?.businessName || data.user.user_metadata?.gym_name || email,
-          email,
-        }
-        setUser(userData)
-        setIsAuthenticated(true)
-        persist("buddy_user", userData)
-        persist("buddy_auth", "true")
-        document.cookie = `buddy_auth_flag=true; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax`
-        addLog("success", "Session Started", `Logged in as ${email}.`)
-      }
-    } else {
-      // Direct login state handling for Google/OAuth callbacks
-      setIsAuthenticated(true)
-      persist("buddy_auth", "true")
-      document.cookie = `buddy_auth_flag=true; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax`
+    const data = await authService.login({
+      email,
+      password: password || "",
+    })
+    setTokens(data.access_token, data.refresh_token)
+    const gymData = await authService.getGym()
+    const userData = {
+      businessName: gymData?.gym_name || email,
+      email,
     }
+    setUser(userData)
+    setIsAuthenticated(true)
+    persist("buddy_user", userData)
+    persist("buddy_auth", "true")
+    document.cookie = "buddy_auth_flag=true; path=/"
+    addLog("success", "Session Started", `Logged in as ${email}.`)
   }
 
   const signup = async (
@@ -184,68 +138,58 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     email: string,
     password?: string
   ) => {
-    if (password) {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            businessName,
-            gym_name: businessName,
-            owner_name: businessName,
-          }
-        }
-      })
-      if (error) throw error
-      
-      if (data.session) {
-        setTokens(data.session.access_token, data.session.refresh_token || "")
-      }
-      const userData = { businessName, email }
-      setUser(userData)
-      setIsAuthenticated(true)
-      persist("buddy_user", userData)
-      persist("buddy_auth", "true")
-      document.cookie = `buddy_auth_flag=true; path=/; max-age=${30 * 24 * 60 * 60}; SameSite=Lax`
-      addLog("success", "Account Created", `Welcome, ${businessName}!`)
-    }
+    const data = await authService.register({
+      email,
+      password: password || "",
+      gym_name: businessName,
+      owner_name: businessName,
+    })
+    setTokens(data.access_token, data.refresh_token)
+    const userData = { businessName, email }
+    setUser(userData)
+    setIsAuthenticated(true)
+    persist("buddy_user", userData)
+    persist("buddy_auth", "true")
+    document.cookie = "buddy_auth_flag=true; path=/"
+    addLog("success", "Account Created", `Welcome, ${businessName}!`)
   }
 
   const logout = async () => {
-    await supabase.auth.signOut()
+    try {
+      const refreshToken =
+        localStorage.getItem("buddy_refresh_token")
+      await authService.logoutWithToken(refreshToken || "")
+    } catch {}
     clearTokens()
     setIsAuthenticated(false)
     setUser(null)
     setWabaConnection(defaultConnection)
-    setLogs(defaultLogs)
     setAutomations(defaultAutomations)
-    document.cookie = "buddy_auth_flag=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
+    try {
+      localStorage.removeItem("buddy_user")
+      localStorage.removeItem("buddy_auth")
+      localStorage.removeItem("buddy_connection")
+      localStorage.removeItem("buddy_automations")
+    } catch {}
+    document.cookie =
+      "buddy_auth_flag=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
   }
 
   const deleteAccount = async () => {
+    await authService.deleteAccount()
+    clearTokens()
+    setIsAuthenticated(false)
+    setUser(null)
+    setWabaConnection(defaultConnection)
+    setAutomations(defaultAutomations)
     try {
-      await authService.deleteAccount();
-    } catch (err) {
-      console.error("Backend delete account failed:", err);
-    }
-    try {
-      await supabase.auth.signOut();
-    } catch (err) {
-      console.error("Supabase signOut failed:", err);
-    }
-    clearTokens();
-    setIsAuthenticated(false);
-    setUser(null);
-    setWabaConnection(defaultConnection);
-    setLogs(defaultLogs);
-    setAutomations(defaultAutomations);
-    document.cookie = "buddy_auth_flag=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-    localStorage.removeItem("buddy_user");
-    localStorage.removeItem("buddy_auth");
-    localStorage.removeItem("buddy_connection");
-    localStorage.removeItem("buddy_logs");
-    localStorage.removeItem("buddy_automations");
-    document.cookie = "buddy_auth_flag=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+      localStorage.removeItem("buddy_user")
+      localStorage.removeItem("buddy_auth")
+      localStorage.removeItem("buddy_connection")
+      localStorage.removeItem("buddy_automations")
+    } catch {}
+    document.cookie =
+      "buddy_auth_flag=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/"
   }
 
   const connectWaba = async (

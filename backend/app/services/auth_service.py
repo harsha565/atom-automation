@@ -115,6 +115,9 @@ class AuthService:
 
         await db.commit()
 
+        # Clean up old revoked tokens for this user
+        await RefreshTokenService.cleanup_old_tokens(db, user.id)
+
         # Fetch gym name to sync on login
         gym_stmt = select(Gym).where(Gym.user_id == user.id)
         gym_result = await db.execute(gym_stmt)

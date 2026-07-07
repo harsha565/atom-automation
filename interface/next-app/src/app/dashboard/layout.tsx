@@ -6,7 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Logo } from "@/components/shared/Logo";
 import { AtomLoader } from "@/components/shared/AtomLoader";
 import Link from "next/link";
-import { LayoutDashboard, Radio, Key, ListFilter, ShieldCheck, Settings, HelpCircle, LogOut } from "lucide-react";
+import { LayoutDashboard, Radio, Key, ListFilter, ShieldCheck, Settings, HelpCircle, LogOut, MessageCircle } from "lucide-react";
 
 export default function DashboardLayout({
   children,
@@ -30,6 +30,7 @@ export default function DashboardLayout({
     { label: "Overview", href: "/dashboard", icon: LayoutDashboard },
     { label: "Automations", href: "/dashboard/automations", icon: Radio },
     { label: "Connection", href: "/dashboard/connection", icon: Key },
+    { label: "Messages", href: "/dashboard/messages", icon: MessageCircle },
     { label: "Activity", href: "/dashboard/activity", icon: ListFilter },
     { label: "Permissions", href: "/dashboard/permissions", icon: ShieldCheck },
     { label: "Settings", href: "/dashboard/settings", icon: Settings },

@@ -116,3 +116,24 @@ class RefreshTokenService:
             db_token.revoked = True
             db.add(db_token)
             await db.flush()
+
+    @staticmethod
+    async def cleanup_old_tokens(
+        db: AsyncSession, user_id: uuid.UUID
+    ) -> None:
+        """
+        Deletes revoked refresh tokens older than 1 day.
+        Safe to call after login without race conditions.
+        """
+        from sqlalchemy import delete as sql_delete
+        from datetime import datetime, timezone, timedelta
+
+        cutoff = datetime.now(timezone.utc) - timedelta(days=1)
+
+        await db.execute(
+            sql_delete(RefreshToken).where(
+                RefreshToken.user_id == user_id,
+                RefreshToken.revoked == True,
+                RefreshToken.updated_at < cutoff,
+            )
+        )
