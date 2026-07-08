@@ -122,18 +122,21 @@ class RefreshTokenService:
         db: AsyncSession, user_id: uuid.UUID
     ) -> None:
         """
-        Deletes revoked refresh tokens older than 1 day.
+        Deletes revoked refresh tokens older than 1 day or expired tokens.
         Safe to call after login without race conditions.
         """
-        from sqlalchemy import delete as sql_delete
+        from sqlalchemy import delete as sql_delete, or_, and_
         from datetime import datetime, timezone, timedelta
 
-        cutoff = datetime.now(timezone.utc) - timedelta(days=1)
+        now = datetime.now(timezone.utc)
+        cutoff = now - timedelta(days=1)
 
         await db.execute(
             sql_delete(RefreshToken).where(
                 RefreshToken.user_id == user_id,
-                RefreshToken.revoked == True,
-                RefreshToken.updated_at < cutoff,
+                or_(
+                    and_(RefreshToken.revoked == True, RefreshToken.updated_at < cutoff),
+                    RefreshToken.expires_at < now
+                )
             )
         )

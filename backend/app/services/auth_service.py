@@ -163,6 +163,9 @@ class AuthService:
 
         await db.commit()
 
+        # Clean up old revoked tokens for this user
+        await RefreshTokenService.cleanup_old_tokens(db, user.id)
+
         return {
             "access_token": new_access_token,
             "refresh_token": new_refresh_token,
