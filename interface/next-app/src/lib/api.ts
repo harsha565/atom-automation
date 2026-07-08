@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const api = axios.create({
-  baseURL: "",
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "",
   headers: { "Content-Type": "application/json" },
 })
 
@@ -33,7 +33,7 @@ api.interceptors.response.use(
           localStorage.getItem("buddy_refresh_token")
         if (!refreshToken) throw new Error("No refresh token")
         const res = await axios.post(
-          "/api/v1/auth/refresh",
+          `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/refresh`,
           { refresh_token: refreshToken }
         )
         const newToken = res.data.data.access_token
