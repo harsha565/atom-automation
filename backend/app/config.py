@@ -34,6 +34,8 @@ class Settings(BaseSettings):
 
     SENTRY_DSN: Optional[str] = None
 
+    INTERNAL_CRON_SECRET: str = ""
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

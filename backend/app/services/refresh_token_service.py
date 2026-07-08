@@ -118,6 +118,14 @@ class RefreshTokenService:
             await db.flush()
 
     @staticmethod
+    def _get_cleanup_condition(now: datetime, cutoff: datetime):
+        from sqlalchemy import or_, and_
+        return or_(
+            and_(RefreshToken.revoked == True, RefreshToken.updated_at < cutoff),
+            RefreshToken.expires_at < now
+        )
+
+    @staticmethod
     async def cleanup_old_tokens(
         db: AsyncSession, user_id: uuid.UUID
     ) -> None:
@@ -125,7 +133,7 @@ class RefreshTokenService:
         Deletes revoked refresh tokens older than 1 day or expired tokens.
         Safe to call after login without race conditions.
         """
-        from sqlalchemy import delete as sql_delete, or_, and_
+        from sqlalchemy import delete as sql_delete
         from datetime import datetime, timezone, timedelta
 
         now = datetime.now(timezone.utc)
@@ -134,9 +142,27 @@ class RefreshTokenService:
         await db.execute(
             sql_delete(RefreshToken).where(
                 RefreshToken.user_id == user_id,
-                or_(
-                    and_(RefreshToken.revoked == True, RefreshToken.updated_at < cutoff),
-                    RefreshToken.expires_at < now
-                )
+                RefreshTokenService._get_cleanup_condition(now, cutoff)
             )
         )
+
+    @staticmethod
+    async def cleanup_all_expired_tokens(
+        db: AsyncSession
+    ) -> int:
+        """
+        Deletes revoked refresh tokens older than 1 day or expired tokens for all users.
+        Returns the number of rows deleted.
+        """
+        from sqlalchemy import delete as sql_delete
+        from datetime import datetime, timezone, timedelta
+
+        now = datetime.now(timezone.utc)
+        cutoff = now - timedelta(days=1)
+
+        result = await db.execute(
+            sql_delete(RefreshToken).where(
+                RefreshTokenService._get_cleanup_condition(now, cutoff)
+            )
+        )
+        return result.rowcount

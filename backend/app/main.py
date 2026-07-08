@@ -15,6 +15,7 @@ from app.routers.whatsapp import router as whatsapp_router
 from app.routers.webhook import router as webhook_router
 from app.routers.automation import router as automation_router
 from app.routers.health import router as health_router
+from app.routers.internal import router as internal_router
 from app.core.limiter import limiter
 
 # Configure logging format and default severity level based on DEBUG flag
@@ -80,5 +81,6 @@ app.include_router(whatsapp_router, prefix="/api/v1")
 app.include_router(webhook_router, prefix="/api/v1")
 app.include_router(automation_router, prefix="/api/v1")
 app.include_router(health_router, prefix="/api/v1")
+app.include_router(internal_router, prefix="/api/v1")
 
 logger.info("API version 1.0.0 routes registered successfully.")
