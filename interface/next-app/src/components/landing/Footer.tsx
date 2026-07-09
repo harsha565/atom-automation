@@ -22,6 +22,7 @@ export const Footer: React.FC = () => {
       links: [
         { label: "Privacy Policy", href: "/legal/privacy" },
         { label: "Terms of Service", href: "/legal/terms" },
+        { label: "Data Deletion", href: "/legal/data-deletion" },
         { label: "Disclaimer", href: "/legal/disclaimer" },
         { label: "Cookie Policy", href: "#" },
       ],
@@ -60,7 +61,7 @@ export const Footer: React.FC = () => {
             </p>
 
             <div className="flex flex-col gap-1 text-[13px] font-sans text-[#4A4A5A]">
-              <span>Email: <a href="mailto:support@atomautomation.in" className="font-bold text-[#D8524B] hover:underline">support@atomautomation.in</a></span>
+              <span>Email: <a href="mailto:contact@atomautomation.in" className="font-bold text-[#D8524B] hover:underline">contact@atomautomation.in</a></span>
               <span>Phone: <a href="tel:+919492019371" className="font-bold hover:text-[#010203]">+91 94920 19371</a></span>
             </div>
             

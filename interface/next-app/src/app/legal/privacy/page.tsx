@@ -184,7 +184,7 @@ export default function PrivacyPolicyPage() {
             </h2>
             <p className="border-t border-gray-100 pt-4">
               <strong>Atom Automation</strong><br />
-              Email: <a href="mailto:support@atomautomation.in" className="font-bold text-[#D8524B] hover:underline">support@atomautomation.in</a><br />
+              Email: <a href="mailto:contact@atomautomation.in" className="font-bold text-[#D8524B] hover:underline">contact@atomautomation.in</a><br />
               Phone / WhatsApp: <a href="tel:+919492019371" className="font-bold hover:underline">+91 94920 19371</a>
             </p>
 
