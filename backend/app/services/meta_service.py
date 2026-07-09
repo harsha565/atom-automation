@@ -17,7 +17,7 @@ class MetaService:
     Target API Version: v23.0
     """
 
-    BASE_URL = "https://graph.facebook.com/v23.0"
+    BASE_URL = "https://graph.facebook.com/v25.0"
 
     @classmethod
     def generate_app_secret_proof(cls, access_token: str) -> str:
@@ -269,6 +269,18 @@ class MetaService:
         """
         return await cls._make_request(
             "POST", f"/{waba_id}/subscribed_apps", access_token
+        )
+
+    @classmethod
+    async def unsubscribe_app_from_waba(
+        cls, waba_id: str, access_token: str
+    ) -> Dict[str, Any]:
+        """
+        Unsubscribes the app from a WhatsApp Business Account (WABA).
+        Endpoint: DELETE /{waba_id}/subscribed_apps
+        """
+        return await cls._make_request(
+            "DELETE", f"/{waba_id}/subscribed_apps", access_token
         )
 
     @classmethod

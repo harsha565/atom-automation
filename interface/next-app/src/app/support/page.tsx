@@ -58,8 +58,8 @@ export default function PublicSupportPage() {
                 </div>
                 <div className="text-left">
                   <h3 className="font-heading font-bold text-sm text-[#010203]">Email Support</h3>
-                  <a href="mailto:support@atomautomation.in" className="font-sans text-xs text-gray-500 mt-1 block hover:text-[#D8524B] break-all select-all font-semibold">
-                    support@atomautomation.in
+                  <a href="mailto:contact@atomautomation.in" className="font-sans text-xs text-gray-500 mt-1 block hover:text-[#D8524B] break-all select-all font-semibold">
+                    contact@atomautomation.in
                   </a>
                   <p className="font-sans text-[10px] text-gray-400 mt-1">We typically reply in under 2 hours.</p>
                 </div>

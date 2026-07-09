@@ -13,6 +13,18 @@ class WhatsAppConnectRequest(BaseModel):
         ...,
         description="The authorization code returned from Meta's Embedded Signup flow.",
     )
+    business_id: Optional[str] = Field(
+        None,
+        description="Optional Business Manager Account ID captured from client session.",
+    )
+    waba_id: Optional[str] = Field(
+        None,
+        description="Optional WhatsApp Business Account ID captured from client session.",
+    )
+    phone_number_id: Optional[str] = Field(
+        None,
+        description="Optional phone number ID captured from client session.",
+    )
 
 
 class WhatsAppConnectionResponse(BaseModel):

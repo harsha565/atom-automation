@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     APP_PUBLIC_URL: str = "http://localhost:3000"
 
     N8N_WEBHOOK_URL: Optional[str] = None
+    N8N_WEBHOOK_SECRET: Optional[str] = None
 
     SENTRY_DSN: Optional[str] = None
 

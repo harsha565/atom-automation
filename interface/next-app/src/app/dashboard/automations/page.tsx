@@ -2,13 +2,17 @@
 
 import React, { useEffect, useState } from "react";
 import { useApp, AutomationsState } from "@/context/AppContext";
-import { ShieldCheck, MessageCircle, AlertCircle, Sparkles, Check } from "lucide-react";
+import { ShieldCheck, MessageCircle, AlertCircle, Sparkles, Check, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { whatsappService, AutomationStatus } from "@/services/whatsappService";
+import api from "@/lib/api";
 
 export default function AutomationsPage() {
-  const { automations, toggleAutomation, wabaConnection } = useApp();
+  const { automations, toggleAutomation, wabaConnection, addLog } = useApp();
   const [automationStatus, setAutomationStatus] = useState<AutomationStatus | null>(null);
   const [isActivating, setIsActivating] = useState(false);
+  const [isSendingReminder, setIsSendingReminder] = useState(false);
+  const [reminderResult, setReminderResult] = useState<"success" | "error" | null>(null);
+  const [reminderError, setReminderError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchAutomation = async () => {
@@ -132,6 +136,64 @@ export default function AutomationsPage() {
           )}
         </button>
       )}
+
+      {/* Send Test Reminder Control */}
+      <div className="flex flex-col gap-3 max-w-sm">
+        <button
+          onClick={async () => {
+            setIsSendingReminder(true);
+            setReminderResult(null);
+            setReminderError(null);
+            try {
+              await api.post("/api/v1/automations/send-test-reminder");
+              setReminderResult("success");
+              addLog(
+                "success",
+                "Test Reminder Sent",
+                "Test reminder webhook invoked successfully."
+              );
+            } catch (err: any) {
+              const msg =
+                err?.response?.data?.error?.message ||
+                "Failed to send test reminder.";
+              setReminderResult("error");
+              setReminderError(msg);
+              addLog(
+                "error",
+                "Test Reminder Failed",
+                msg
+              );
+            } finally {
+              setIsSendingReminder(false);
+            }
+          }}
+          disabled={isSendingReminder}
+          className="w-full flex items-center justify-center gap-2 bg-[#D8524B] text-white hover:bg-[#c0433d] font-heading font-bold text-sm h-[48px] rounded-full shadow-lg disabled:opacity-50"
+        >
+          {isSendingReminder ? (
+            <>
+              <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+              Sending...
+            </>
+          ) : (
+            "Send Test Reminder"
+          )}
+        </button>
+
+        {reminderResult === "success" && (
+          <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 flex items-start gap-3">
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+            <p className="text-xs font-sans text-emerald-700">Reminder sent successfully.</p>
+          </div>
+        )}
+
+        {reminderResult === "error" && (
+          <div className="bg-red-50 border border-red-100 rounded-2xl p-4 flex items-start gap-3">
+            <AlertTriangle className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+            <p className="text-xs font-sans text-red-700">{reminderError}</p>
+          </div>
+        )}
+      </div>
 
       {/* Automations Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

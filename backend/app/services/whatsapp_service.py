@@ -45,40 +45,99 @@ class WhatsAppService:
                 code=ErrorCode.META_API_ERROR,
                 status_code=400,
             )
-        business_id = biz_list[0]["id"]
 
-        # 4. Retrieve WABAs owned by the resolved business account
-        waba_accounts = await MetaService.get_waba_accounts(
-            business_id, access_token
-        )
-        waba_list = waba_accounts.get("data", [])
-        if not waba_list:
-            logger.error(f"No WhatsApp Business Accounts found for business: {business_id}")
-            raise MetaAPIException(
-                message="No WhatsApp Business Accounts (WABA) found under the resolved business profile.",
-                code=ErrorCode.META_API_ERROR,
-                status_code=400,
-            )
-        waba_id = waba_list[0]["id"]
+        if data.business_id and data.waba_id and data.phone_number_id:
+            # Verify submitted business_id exists in Meta retrieved list
+            if not any(b.get("id") == data.business_id for b in biz_list):
+                logger.error(f"Graph validation failure: Submitted business_id {data.business_id} not found in user's business accounts.")
+                raise MetaAPIException(
+                    message="Submitted business account ID is invalid or not owned by user.",
+                    code=ErrorCode.META_API_ERROR,
+                    status_code=400,
+                )
+            business_id = data.business_id
+            logger.info("Graph validation success: business_id verified")
 
-        # 5. Retrieve phone number metadata linked to the WABA ID
-        phone_numbers = await MetaService.get_phone_numbers(
-            waba_id, access_token
-        )
-        phone_list = phone_numbers.get("data", [])
-        if not phone_list:
-            logger.error(f"No phone numbers found for WABA ID: {waba_id}")
-            raise MetaAPIException(
-                message="No phone numbers registered under the WhatsApp Business Account.",
-                code=ErrorCode.META_API_ERROR,
-                status_code=400,
+            # Retrieve WABAs owned by the resolved business account
+            waba_accounts = await MetaService.get_waba_accounts(
+                business_id, access_token
             )
-        # Select first available phone number
-        phone_data = phone_list[0]
-        phone_number = phone_data.get("display_phone_number") or phone_data.get(
-            "phone_number", ""
-        )
-        phone_number_id = phone_data.get("id")
+            waba_list = waba_accounts.get("data", [])
+            
+            # Verify submitted waba_id exists in retrieved list
+            if not any(w.get("id") == data.waba_id for w in waba_list):
+                logger.error(f"Graph validation failure: Submitted waba_id {data.waba_id} not found in business's WABA list.")
+                raise MetaAPIException(
+                    message="Submitted WhatsApp Business Account ID is invalid or not owned by the business.",
+                    code=ErrorCode.META_API_ERROR,
+                    status_code=400,
+                )
+            waba_id = data.waba_id
+            logger.info("Graph validation success: waba_id verified")
+
+            # Retrieve phone number metadata linked to the WABA ID
+            phone_numbers = await MetaService.get_phone_numbers(
+                waba_id, access_token
+            )
+            phone_list = phone_numbers.get("data", [])
+            
+            # Verify submitted phone_number_id exists in retrieved list
+            target_phone = None
+            for p in phone_list:
+                if p.get("id") == data.phone_number_id:
+                    target_phone = p
+                    break
+            
+            if not target_phone:
+                logger.error(f"Graph validation failure: Submitted phone_number_id {data.phone_number_id} not found in WABA's phone number list.")
+                raise MetaAPIException(
+                    message="Submitted phone number ID is invalid or not registered under the WABA.",
+                    code=ErrorCode.META_API_ERROR,
+                    status_code=400,
+                )
+            
+            phone_number_id = data.phone_number_id
+            phone_number = target_phone.get("display_phone_number") or target_phone.get(
+                "phone_number", ""
+            )
+            logger.info("Graph validation success: phone_number_id verified")
+
+        else:
+            # Fallback behavior (selecting the first account parameters)
+            business_id = biz_list[0]["id"]
+
+            # 4. Retrieve WABAs owned by the resolved business account
+            waba_accounts = await MetaService.get_waba_accounts(
+                business_id, access_token
+            )
+            waba_list = waba_accounts.get("data", [])
+            if not waba_list:
+                logger.error(f"No WhatsApp Business Accounts found for business: {business_id}")
+                raise MetaAPIException(
+                    message="No WhatsApp Business Accounts (WABA) found under the resolved business profile.",
+                    code=ErrorCode.META_API_ERROR,
+                    status_code=400,
+                )
+            waba_id = waba_list[0]["id"]
+
+            # 5. Retrieve phone number metadata linked to the WABA ID
+            phone_numbers = await MetaService.get_phone_numbers(
+                waba_id, access_token
+            )
+            phone_list = phone_numbers.get("data", [])
+            if not phone_list:
+                logger.error(f"No phone numbers found for WABA ID: {waba_id}")
+                raise MetaAPIException(
+                    message="No phone numbers registered under the WhatsApp Business Account.",
+                    code=ErrorCode.META_API_ERROR,
+                    status_code=400,
+                )
+            # Select first available phone number
+            phone_data = phone_list[0]
+            phone_number = phone_data.get("display_phone_number") or phone_data.get(
+                "phone_number", ""
+            )
+            phone_number_id = phone_data.get("id")
 
         if not phone_number_id:
             raise MetaAPIException(
@@ -157,6 +216,11 @@ class WhatsAppService:
         await db.commit()
         await db.refresh(whatsapp_acc)
 
+        # Set status to CONNECTED only after database commit is successful
+        whatsapp_acc.status = WhatsAppStatus.CONNECTED
+        await db.commit()
+        await db.refresh(whatsapp_acc)
+
         return whatsapp_acc
 
     @staticmethod
@@ -208,6 +272,15 @@ class WhatsAppService:
                 message="No connected WhatsApp Business Account found to disconnect.",
                 code=ErrorCode.NOT_FOUND
             )
+
+        # Decrypt access token and waba_id to call unsubscribe on disconnect
+        try:
+            access_token = EncryptionService.decrypt(whatsapp_acc.encrypted_access_token)
+            waba_id = EncryptionService.decrypt(whatsapp_acc.encrypted_waba_id)
+            logger.info(f"Unsubscribing app from WABA: {waba_id}")
+            await MetaService.unsubscribe_app_from_waba(waba_id, access_token)
+        except Exception as e:
+            logger.error(f"Failed to unsubscribe app from WABA during disconnect: {e}")
 
         now = datetime.now(timezone.utc)
         whatsapp_acc.deleted_at = now

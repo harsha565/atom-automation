@@ -104,7 +104,7 @@ export default function SupportPage() {
             <div className="bg-white border border-gray-150 p-5 rounded-2xl flex flex-col items-center text-center shadow-sm">
               <Mail className="w-5 h-5 text-[#D8524B] mb-2" />
               <span className="font-heading font-bold text-xs text-[#010203]">Email Us</span>
-              <span className="font-sans text-[10px] text-gray-400 mt-1 select-all">support@atomautomation.in</span>
+              <span className="font-sans text-[10px] text-gray-400 mt-1 select-all">contact@atomautomation.in</span>
             </div>
             
             <div className="bg-white border border-gray-150 p-5 rounded-2xl flex flex-col items-center text-center shadow-sm">

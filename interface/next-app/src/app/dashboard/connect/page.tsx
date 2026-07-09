@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useApp } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
 import { ShieldAlert, ArrowRight, CheckCircle2, AlertTriangle, Key } from "lucide-react";
-import { loadMetaSDK, launchEmbeddedSignup } from "@/lib/metaSDK";
+import { loadMetaSDK, launchEmbeddedSignup, getLatestEmbeddedSignupSession, clearLatestEmbeddedSignupSession } from "@/lib/metaSDK";
 import { whatsappService } from "@/services/whatsappService";
 
 export default function ConnectWhatsAppPage() {
@@ -46,6 +46,7 @@ export default function ConnectWhatsAppPage() {
       return;
     }
 
+    clearLatestEmbeddedSignupSession();
     setIsConnecting(true);
     setErrorMessage(null);
     setSuccessMessage(null);
@@ -56,8 +57,16 @@ export default function ConnectWhatsAppPage() {
       const authCode = await launchEmbeddedSignup(configId);
       setActiveStep(3);
 
-      // Step 2: Send code to backend
-      await whatsappService.connect(authCode);
+      // Read the latest stored session information
+      const sessionInfo = getLatestEmbeddedSignupSession();
+
+      // Step 2: Send code to backend with optional session information hints
+      await whatsappService.connect(
+        authCode,
+        sessionInfo?.business_id,
+        sessionInfo?.waba_id,
+        sessionInfo?.phone_number_id
+      );
       setActiveStep(4);
 
       // Step 3: Trigger n8n automation

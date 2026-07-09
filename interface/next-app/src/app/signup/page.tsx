@@ -304,7 +304,7 @@ export default function SignupPage() {
 
           {/* TOS block */}
           <p className="text-[11px] font-sans text-gray-400 mt-6 text-center leading-relaxed">
-            By creating an account, you agree to our <Link href="/legal/terms" className="underline">Terms of Service</Link> and <Link href="/legal/privacy" className="underline">Privacy Policy</Link>.
+            By creating an account, you agree to our <Link href="/legal/terms" className="underline">Terms of Service</Link>, <Link href="/legal/privacy" className="underline">Privacy Policy</Link>, and <Link href="/legal/data-deletion" className="underline">Data Deletion Instructions</Link>.
           </p>
 
         </div>

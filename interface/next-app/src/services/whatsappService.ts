@@ -17,10 +17,20 @@ export interface AutomationStatus {
 }
 
 export const whatsappService = {
-  async connect(authorizationCode: string) {
-    const res = await api.post("/api/v1/whatsapp/connect", {
+  async connect(
+    authorizationCode: string,
+    businessId?: string,
+    wabaId?: string,
+    phoneNumberId?: string
+  ) {
+    const payload: any = {
       authorization_code: authorizationCode,
-    })
+    }
+    if (businessId) payload.business_id = businessId
+    if (wabaId) payload.waba_id = wabaId
+    if (phoneNumberId) payload.phone_number_id = phoneNumberId
+
+    const res = await api.post("/api/v1/whatsapp/connect", payload)
     return res.data
   },
 

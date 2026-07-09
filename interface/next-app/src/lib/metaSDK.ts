@@ -68,6 +68,55 @@ export const loadMetaSDK = (appId: string): Promise<void> => {
   return sdkPromise
 }
 
+export interface EmbeddedSignupSession {
+  business_id?: string
+  waba_id?: string
+  phone_number_id?: string
+}
+
+let latestSession: EmbeddedSignupSession | null = null
+
+export const getLatestEmbeddedSignupSession = (): EmbeddedSignupSession | null => {
+  return latestSession
+}
+
+export const clearLatestEmbeddedSignupSession = (): void => {
+  latestSession = null
+}
+
+if (typeof window !== "undefined") {
+  window.addEventListener("message", (event: MessageEvent) => {
+    if (event.origin !== "https://www.facebook.com") return
+    try {
+      const data =
+        typeof event.data === "string" ? JSON.parse(event.data) : event.data
+      if (data?.type === "WA_EMBEDDED_SIGNUP") {
+        const eventType = data?.event
+        const eventData = data?.data
+        
+        if (eventType === "FINISH") {
+          const business_id = eventData?.business_id
+          const waba_id = eventData?.waba_id || (eventData?.waba_ids && eventData?.waba_ids[0])
+          const phone_number_id = eventData?.phone_number_id || (eventData?.phone_number_ids && eventData?.phone_number_ids[0])
+          
+          latestSession = {
+            business_id,
+            waba_id,
+            phone_number_id,
+          }
+          console.log("Embedded Signup FINISH:", latestSession)
+        } else if (eventType === "CANCEL") {
+          console.log("Embedded Signup CANCEL")
+        } else if (eventType === "ERROR") {
+          console.error("Embedded Signup ERROR:", eventData)
+        }
+      }
+    } catch {
+      // ignore
+    }
+  })
+}
+
 export const launchEmbeddedSignup = (
   configId: string
 ): Promise<string> => {
@@ -86,25 +135,9 @@ export const launchEmbeddedSignup = (
       return
     }
 
-    const messageListener = (event: MessageEvent) => {
-      if (event.origin !== "https://www.facebook.com") return
-      try {
-        const data =
-          typeof event.data === "string" ? JSON.parse(event.data) : event.data
-        if (data?.type === "WA_EMBEDDED_SIGNUP") {
-          console.log("Meta session info received:", data)
-        }
-      } catch {
-        // ignore
-      }
-    }
-
-    window.addEventListener("message", messageListener)
-
     try {
       window.FB.login(
         (response: any) => {
-          window.removeEventListener("message", messageListener)
           if (response?.authResponse?.code) {
             resolve(response.authResponse.code)
           } else {
@@ -125,7 +158,6 @@ export const launchEmbeddedSignup = (
         }
       )
     } catch (e: any) {
-      window.removeEventListener("message", messageListener)
       reject(e)
     }
   })
