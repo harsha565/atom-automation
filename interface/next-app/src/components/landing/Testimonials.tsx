@@ -22,54 +22,41 @@ export const Testimonials: React.FC = () => {
   const caseStudies: CaseStudy[] = [
     {
       id: 0,
-      industry: "Gym & Wellness",
-      quote: "Atom changed our membership renewals completely. We automated expiry alerts 7 days before lapse, resulting in a 40% jump in retention and saving our receptionist 10 hours a week.",
-      author: "Marcus Vance",
-      title: "Owner & General Manager",
-      company: "Active Fitness Club",
-      challenge: "Manually tracking 400 memberships and sending manual texts.",
-      automation: "Automated renewal alerts and +40% retention.",
-      outcome: "Saved 10 hours a week, 40% renewal spike.",
-      initials: "MV",
+      industry: "Fitness Studio",
+      quote: "Atom Automations helped us automate our membership renewal reminders. Our clients never miss a renewal now.",
+      author: "Gym Owner, Bengaluru",
+      title: "Illustrative example",
+      company: "Fitness Studio",
+      challenge: "Manual renewal tracking",
+      automation: "Automated renewal alerts",
+      outcome: "Automated Reminders",
+      initials: "GB",
       avatarColor: "bg-[#D8524B] text-white",
     },
     {
       id: 1,
-      industry: "Clinic & Dental",
-      quote: "No-shows dropped to nearly zero in the first month. By sending automatic confirmation messages 24 hours prior and enabling direct replies, clients cancel or reschedule instantly.",
-      author: "Dr. Sarah Patel",
-      title: "Chief Orthodontist",
-      company: "Apex Dental Center",
-      challenge: "20% appointment no-shows, lost revenue.",
-      automation: "Direct confirmations and rescheduling flows.",
-      outcome: "No-shows dropped to 2%, automated rescheduling.",
-      initials: "SP",
+      industry: "Healthcare Clinic",
+      quote: "We saved hours every week by automating appointment reminders on WhatsApp.",
+      author: "Clinic Manager, Hyderabad",
+      title: "Illustrative example",
+      company: "Healthcare Clinic",
+      challenge: "Manual scheduling",
+      automation: "Appointment reminders",
+      outcome: "Automated Reminders",
+      initials: "CH",
       avatarColor: "bg-blue-600 text-white",
     },
     {
       id: 2,
-      industry: "Salons & Studios",
-      quote: "Our clients love receiving instant confirmations and styling update notes on WhatsApp. The integration process took under 3 minutes and it works perfectly in the background.",
-      author: "Elena Rostova",
-      title: "Founder & Creative Lead",
-      company: "Glow & Co. Hair Salon",
-      challenge: "Confirming bookings manually, clients forgetting appointments.",
-      automation: "Instant booking confirmations and style briefs.",
-      outcome: "100% automated booking confirmations, zero missed bookings.",
-      initials: "ER",
-      avatarColor: "bg-[#FFFFA7] text-[#010203]",
-    },
-    {
-      id: 3,
-      industry: "Restaurants & Grills",
-      quote: "We automated table confirmations and reservation alerts. It runs seamlessly while our staff concentrates on service. We've seen a noticeable bump in customer satisfaction.",
-      author: "Ricardo Ramos",
-      title: "Managing Director",
-      company: "Taco Fiesta Grill",
-      challenge: "Busy dinner rush reservation phone calls.",
-      automation: "Instant text reservation confirmations.",
-      outcome: "Fewer phone interruptions, higher customer satisfaction.",
-      initials: "RR",
+      industry: "Restaurant",
+      quote: "Customer follow-ups are now fully automated. Our team focuses on service.",
+      author: "Restaurant Owner, Chennai",
+      title: "Illustrative example",
+      company: "Restaurant",
+      challenge: "Manual follow-ups",
+      automation: "Automated follow-ups",
+      outcome: "Automated Reminders",
+      initials: "RC",
       avatarColor: "bg-emerald-600 text-white",
     },
   ];
@@ -171,8 +158,11 @@ export const Testimonials: React.FC = () => {
                 <h4 className="font-heading font-bold text-base text-[#010203]">
                   {current.author}
                 </h4>
-                <p className="font-sans text-xs text-gray-500 mt-0.5">
-                  {current.title}, <span className="font-semibold text-gray-700">{current.company}</span>
+                <p className="font-sans text-xs font-semibold text-gray-700 mt-0.5">
+                  {current.company}
+                </p>
+                <p className="font-sans text-[11px] text-gray-400 mt-1 italic">
+                  {current.title}
                 </p>
               </div>
 
@@ -232,6 +222,10 @@ export const Testimonials: React.FC = () => {
           </motion.div>
 
         </motion.div>
+
+        <p className="text-center text-xs text-gray-400 mt-4 font-sans">
+          Examples are illustrative. Real case studies coming soon as we onboard our first businesses.
+        </p>
       </div>
     </section>
   );

@@ -36,15 +36,6 @@ export const Footer: React.FC = () => {
         { label: "Report an Issue", href: "/support" },
       ],
     },
-    {
-      title: "Connect",
-      links: [
-        { label: "X / Twitter", href: "#" },
-        { label: "LinkedIn", href: "#" },
-        { label: "Instagram", href: "#" },
-        { label: "WhatsApp", href: "#" },
-      ],
-    },
   ];
 
   return (
@@ -63,6 +54,15 @@ export const Footer: React.FC = () => {
             <div className="flex flex-col gap-1 text-[13px] font-sans text-[#4A4A5A]">
               <span>Email: <a href="mailto:contact@atomautomation.in" className="font-bold text-[#D8524B] hover:underline">contact@atomautomation.in</a></span>
               <span>Phone: <a href="tel:+919492019371" className="font-bold hover:text-[#010203]">+91 94920 19371</a></span>
+              <p className="text-xs text-gray-400 mt-2">
+                Atom Automations
+              </p>
+              <p className="text-xs text-gray-400">
+                Andhra Pradesh, India
+              </p>
+              <p className="text-xs text-gray-400">
+                MSME Registered
+              </p>
             </div>
             
             <div className="mt-4">

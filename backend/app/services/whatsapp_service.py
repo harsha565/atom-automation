@@ -31,9 +31,11 @@ class WhatsAppService:
         gym = await GymService.get_gym(db, user)
 
         # 2. Exchange authorization code for a long-lived access token
-        access_token = await MetaService.exchange_code_for_token(
+        token_data = await MetaService.exchange_code_for_token(
             data.authorization_code
         )
+        access_token = token_data["access_token"]
+        expires_in = token_data.get("expires_in", 0)
 
         # 3. Retrieve business accounts owned by the user
         businesses = await MetaService.get_business_accounts(access_token)
@@ -171,6 +173,14 @@ class WhatsAppService:
         result = await db.execute(stmt)
         whatsapp_acc = result.scalar_one_or_none()
 
+        from datetime import datetime, timezone, timedelta
+
+        token_expires_at = (
+            datetime.now(timezone.utc) +
+            timedelta(seconds=expires_in)
+            if expires_in > 0 else None
+        )
+
         now = datetime.now(timezone.utc)
 
         if whatsapp_acc:
@@ -187,6 +197,7 @@ class WhatsAppService:
             whatsapp_acc.connected_at = now
             whatsapp_acc.token_type = TokenType.USER_TOKEN
             whatsapp_acc.token_source = TokenSource.EMBEDDED_SIGNUP
+            whatsapp_acc.token_expires_at = token_expires_at
         else:
             logger.info(f"Creating new WhatsApp account connection for gym: {gym.id}")
             whatsapp_acc = WhatsAppAccount(
@@ -201,6 +212,7 @@ class WhatsAppService:
                 connected_at=now,
                 token_type=TokenType.USER_TOKEN,
                 token_source=TokenSource.EMBEDDED_SIGNUP,
+                token_expires_at=token_expires_at,
             )
             db.add(whatsapp_acc)
 

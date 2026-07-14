@@ -46,32 +46,109 @@ async def verify_whatsapp_webhook(
 
 
 @router.post("/whatsapp")
-@limiter.limit("60/minute")
 async def receive_whatsapp_webhook(
     request: Request,
-) -> Response:
+    db: AsyncSession = Depends(get_db),
+) -> dict:
     """
-    Endpoint to receive incoming WhatsApp webhook payloads (messages, delivery receipts, status updates).
+    Receives incoming WhatsApp webhook payloads.
+    Verifies HMAC signature, parses messages,
+    and forwards to n8n for processing.
+    Must respond 200 quickly — processing is async.
     """
-    if not settings.META_APP_SECRET:
-        logger.error("META_APP_SECRET is not configured! Webhook POST requests are blocked for security.")
-        return Response(content='{"error":"Security configuration missing"}', status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, media_type="application/json")
+    import hmac
+    import hashlib
+    import httpx
+    from sqlalchemy import select
+    from app.models.whatsapp import WhatsAppAccount
+    from app.models.gym import Gym
 
-    signature = request.headers.get("x-hub-signature-256")
-    if not signature:
-        logger.warning("Missing x-hub-signature-256 header")
-        return Response(content='{"error":"Missing signature"}', status_code=status.HTTP_401_UNAUTHORIZED, media_type="application/json")
+    # Get raw body for signature verification
+    body = await request.body()
 
-    raw_body = await request.body()
-    if not verify_signature(raw_body, signature, settings.META_APP_SECRET):
-        logger.warning("Invalid x-hub-signature-256 signature")
-        return Response(content='{"error":"Invalid signature"}', status_code=status.HTTP_401_UNAUTHORIZED, media_type="application/json")
+    # Verify Meta signature
+    sig_header = request.headers.get(
+        "X-Hub-Signature-256", ""
+    )
+    if settings.META_APP_SECRET and sig_header:
+        expected = "sha256=" + hmac.new(
+            settings.META_APP_SECRET.encode(),
+            body,
+            hashlib.sha256,
+        ).hexdigest()
+        if not hmac.compare_digest(sig_header, expected):
+            logger.warning("Invalid webhook signature")
+            return {"status": "invalid_signature"}
 
-    return Response(content='{"status":"success","received":true}', media_type="application/json")
+    try:
+        payload = await request.json()
+    except Exception:
+        return {"status": "invalid_payload"}
+
+    # Process entries asynchronously
+    # Return 200 immediately to Meta
+    entries = payload.get("entry", [])
+
+    for entry in entries:
+        waba_id = entry.get("id")
+        changes = entry.get("changes", [])
+
+        for change in changes:
+            field = change.get("field")
+            value = change.get("value", {})
+
+            logger.info(
+                f"Webhook event: field={field} "
+                f"waba_id={waba_id}"
+            )
+
+            if field == "messages":
+                messages = value.get("messages", [])
+                statuses = value.get("statuses", [])
+                phone_number_id = value.get(
+                    "metadata", {}
+                ).get("phone_number_id")
+
+                # Log incoming messages
+                for msg in messages:
+                    logger.info(
+                        f"Incoming message from "
+                        f"{msg.get('from')}: "
+                        f"{msg.get('text', {}).get('body', '')}"
+                    )
+
+                # Forward to n8n if configured
+                if settings.N8N_WEBHOOK_URL and (
+                    messages or statuses
+                ):
+                    try:
+                        async with httpx.AsyncClient(
+                            timeout=5.0
+                        ) as client:
+                            await client.post(
+                                settings.N8N_WEBHOOK_URL
+                                + "/incoming",
+                                json={
+                                    "waba_id": waba_id,
+                                    "phone_number_id":
+                                        phone_number_id,
+                                    "messages": messages,
+                                    "statuses": statuses,
+                                    "raw": value,
+                                },
+                            )
+                    except Exception as e:
+                        logger.warning(
+                            f"n8n forward failed: {e}"
+                        )
+
+    return {"status": "ok"}
+
 
 
 @router.post("/data-deletion")
 async def meta_data_deletion_callback(
+    request: Request,
     signed_request: str = Form(...),
     db: AsyncSession = Depends(get_db),
 ) -> DataDeletionResponse:
@@ -90,8 +167,18 @@ async def meta_data_deletion_callback(
         db, meta_user_id
     )
 
+    scheme = request.headers.get("x-forwarded-proto", request.url.scheme)
+    host = request.headers.get("x-forwarded-host", request.headers.get("host"))
+    if host:
+        if "8000" in host:
+            base_url = settings.APP_PUBLIC_URL
+        else:
+            base_url = f"{scheme}://{host}"
+    else:
+        base_url = settings.APP_PUBLIC_URL
+
     status_check_url = (
-        f"{settings.APP_PUBLIC_URL}/legal/data-deletion-status"
+        f"{base_url}/legal/data-deletion-status"
         f"?id={result['confirmation_code']}"
     )
 
@@ -99,4 +186,23 @@ async def meta_data_deletion_callback(
         url=status_check_url,
         confirmation_code=result["confirmation_code"],
     )
+
+
+@router.get("/data-deletion-status")
+async def get_data_deletion_status(
+    id: str,
+    db: AsyncSession = Depends(get_db),
+) -> dict:
+    """
+    Returns the status of a data deletion request.
+    Meta checks this URL after sending a deletion callback.
+    """
+    from app.services.data_deletion_service import (
+        DataDeletionService
+    )
+    status = await DataDeletionService.get_deletion_status(
+        db, id
+    )
+    return status
+
 

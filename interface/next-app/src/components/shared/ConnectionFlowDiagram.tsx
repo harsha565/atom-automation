@@ -27,7 +27,7 @@ export const ConnectionFlowDiagram: React.FC<ConnectionFlowDiagramProps> = ({
     {
       id: "meta",
       title: "Meta Authorization",
-      status: "Official Gateway",
+      status: "Secure Authorization Flow",
       icon: ShieldCheck,
       badgeColor: "bg-blue-500",
       iconColor: isDarkBg ? "text-blue-400" : "text-blue-500",

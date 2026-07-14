@@ -52,7 +52,7 @@ export const Hero: React.FC = () => {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#D8524B]/5 border border-[#D8524B]/15 text-[#D8524B] font-heading font-bold text-xs uppercase tracking-wider mb-8"
           >
             <span className="w-2 h-2 rounded-full bg-[#D8524B] animate-ping" />
-            Official Meta integration gateway
+            Secure WhatsApp Business Platform Integration
           </motion.div>
 
           {/* Headline */}
@@ -69,7 +69,7 @@ export const Hero: React.FC = () => {
             variants={itemVariants}
             className="font-sans text-base sm:text-lg md:text-xl text-[#4A4A5A] max-w-2xl mt-6 leading-relaxed"
           >
-            We provide WhatsApp Business API solutions, AI-powered customer support, sales automation, and business messaging infrastructure for companies.
+            The WhatsApp automation platform built for gym owners. Connect your existing WhatsApp Business number and automate membership reminders, customer support, and more.
           </motion.p>
 
           {/* CTAs */}
@@ -114,7 +114,7 @@ export const Hero: React.FC = () => {
           transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.5, delay: 0.8 }}
           className="flex flex-wrap justify-center gap-8 mt-12 text-xs font-heading font-bold text-gray-500 uppercase tracking-widest border-t border-gray-100 pt-8 w-full max-w-xl mx-auto"
         >
-          <span>✓ Official Meta Integration</span>
+          <span>✓ Meta Integration</span>
           <span>✓ Ownership Retained</span>
           <span>✓ Permission-Based Sync</span>
         </motion.div>

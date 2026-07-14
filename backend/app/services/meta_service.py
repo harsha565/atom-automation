@@ -163,7 +163,7 @@ class MetaService:
         return await cls._make_request("GET", f"/{waba_id}", access_token)
 
     @classmethod
-    async def exchange_code_for_token(cls, authorization_code: str) -> str:
+    async def exchange_code_for_token(cls, authorization_code: str) -> Dict[str, Any]:
         """
         Exchanges a Meta authorization code for a user access token.
         Endpoint: /oauth/access_token
@@ -215,6 +215,7 @@ class MetaService:
 
                 resp_data = response.json()
                 access_token = resp_data.get("access_token")
+                expires_in = resp_data.get("expires_in", 0)
                 if not access_token:
                     logger.error("Meta response did not contain access_token parameter")
                     raise MetaAPIException(
@@ -223,7 +224,10 @@ class MetaService:
                         status_code=500,
                     )
 
-                return access_token
+                return {
+                    "access_token": access_token,
+                    "expires_in": expires_in,
+                }
 
         except httpx.RequestError as exc:
             logger.error(f"Connection error during token exchange: {exc}")

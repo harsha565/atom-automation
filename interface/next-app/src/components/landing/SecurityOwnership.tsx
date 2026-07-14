@@ -43,7 +43,7 @@ export const SecurityOwnership: React.FC = () => {
             Security & Trust
           </span>
           <h2 className="font-heading font-extrabold text-3xl sm:text-4xl md:text-[44px] text-[#010203] mt-5 leading-tight">
-            Built Around Meta&apos;s Official Process
+            Built Around Meta&apos;s Process
           </h2>
           <p className="font-sans text-base sm:text-lg text-[#4A4A5A] mt-4 leading-relaxed max-w-2xl mx-auto">
             Atom Automation is engineered to guarantee business asset isolation. We build trust through transparency, clear consent boundaries, and instant revocability.

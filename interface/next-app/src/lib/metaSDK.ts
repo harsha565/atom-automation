@@ -153,7 +153,7 @@ export const launchEmbeddedSignup = (
           extras: {
             version: "v4",
             sessionInfoVersion: "3",
-            feature: "whatsapp_embedded_signup",
+            featureType: "whatsapp_business_app_onboarding",
           },
         }
       )

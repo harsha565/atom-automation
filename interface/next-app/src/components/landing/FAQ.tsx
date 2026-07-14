@@ -10,7 +10,7 @@ export const FAQ: React.FC = () => {
   const faqs = [
     {
       q: "Is this safe to connect?",
-      a: "Yes, completely. Atom Automation connects to your WhatsApp Business number via Meta's official authorization API. We do not see, request, or store your passwords. Your login credentials remain secure within Meta's servers.",
+      a: "Yes, completely. Atom Automation connects to your WhatsApp Business number via Meta's authorization API. We do not see, request, or store your passwords. Your login credentials remain secure within Meta's servers.",
     },
     {
       q: "Will I lose ownership of my WhatsApp Business account?",

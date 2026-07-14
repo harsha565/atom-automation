@@ -24,7 +24,7 @@ export const CoreService: React.FC = () => {
             Secure WhatsApp Business Connection
           </h2>
           <p className="font-sans text-base sm:text-lg text-[#4A4A5A] mt-4 leading-relaxed max-w-2xl mx-auto">
-            The foundation of everything we do. Connect your WhatsApp Business Account through Meta&apos;s official authorization — we never touch your password.
+            The foundation of everything we do. Connect your WhatsApp Business Account through Meta&apos;s authorization — we never touch your password.
           </p>
         </div>
 

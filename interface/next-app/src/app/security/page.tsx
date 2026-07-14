@@ -10,7 +10,7 @@ export default function SecurityPage() {
   const securityFeatures = [
     {
       title: "Meta-Approved Integration",
-      desc: "Our platform connects directly through Meta's official Embedded Signup. We do not request, process, or store your passwords. Your credentials stay strictly within Meta's servers.",
+      desc: "Our platform connects directly through Meta's Embedded Signup. We do not request, process, or store your passwords. Your credentials stay strictly within Meta's servers.",
       icon: ShieldCheck,
     },
     {

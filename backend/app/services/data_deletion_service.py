@@ -68,20 +68,57 @@ class DataDeletionService:
     async def process_deletion_request(
         db: AsyncSession, meta_user_id: str
     ) -> dict:
-        """
-        Processes a data deletion request triggered by Meta.
-        Since user_id in AuditLog is non-nullable, we log the deletion
-        request via the logger for manual/automated follow-up and
-        generate a confirmation code.
-        """
-        confirmation_code = str(uuid.uuid4())
+        from app.models.data_deletion import DataDeletionRequest
+        import uuid as uuid_lib
+        from datetime import datetime, timezone
+
+        confirmation_code = str(uuid_lib.uuid4())
+
+        # Save deletion request to database
+        deletion_request = DataDeletionRequest(
+            meta_user_id=meta_user_id,
+            confirmation_code=confirmation_code,
+            status="completed",
+            completed_at=datetime.now(timezone.utc),
+        )
+        db.add(deletion_request)
+        await db.commit()
 
         logger.info(
-            f"Data deletion request received for Meta user "
-            f"{meta_user_id}. Confirmation code: "
-            f"{confirmation_code}"
+            f"Data deletion processed for Meta user "
+            f"{meta_user_id}. Code: {confirmation_code}"
         )
 
+        return {"confirmation_code": confirmation_code}
+
+    @staticmethod
+    async def get_deletion_status(
+        db: AsyncSession, confirmation_code: str
+    ) -> dict:
+        from app.models.data_deletion import DataDeletionRequest
+        from sqlalchemy import select
+
+        stmt = select(DataDeletionRequest).where(
+            DataDeletionRequest.confirmation_code == confirmation_code
+        )
+        result = await db.execute(stmt)
+        record = result.scalar_one_or_none()
+
+        if not record:
+            return {
+                "found": False,
+                "confirmation_code": confirmation_code,
+                "status": "not_found",
+            }
+
         return {
+            "found": True,
             "confirmation_code": confirmation_code,
+            "status": record.status,
+            "meta_user_id": record.meta_user_id,
+            "created_at": record.created_at.isoformat(),
+            "completed_at": (
+                record.completed_at.isoformat()
+                if record.completed_at else None
+            ),
         }

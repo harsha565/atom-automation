@@ -5,7 +5,7 @@ import { CheckCircle2 } from "lucide-react";
 
 export const TrustBar: React.FC = () => {
   const items = [
-    "Official Meta Authorization",
+    "Meta-Authorized Integration Flow",
     "Your Account, Your Ownership",
     "Permission-Based Access Only",
     "Disconnect Anytime",
