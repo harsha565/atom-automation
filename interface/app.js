@@ -1278,7 +1278,7 @@
         // Insert new records to log feed
         this.state.logs.unshift(
           { id: Date.now() + 1, type: 'SUCCESS', title: 'WhatsApp Business Link Active', desc: `Number ${configData.phoneNumber} linked successfully to business profile "${configData.wabaName}".`, time: 'Just now' },
-          { id: Date.now(), type: 'SUCCESS', title: 'Official Meta Handshake Complete', desc: 'Secure connection keys verified and approved.', time: 'Just now' }
+          { id: Date.now(), type: 'SUCCESS', title: 'Meta Handshake Complete', desc: 'Secure connection keys verified and approved.', time: 'Just now' }
         );
         this.persistSession();
 
@@ -1381,7 +1381,7 @@
         "WABA": "WhatsApp Business Profile",
         "Phone Number ID": "WhatsApp Business Number",
         "Client Secret": "Verification Code",
-        "Embedded Signup": "Official Meta Connection Flow",
+        "Embedded Signup": "Meta Connection Flow",
         "Access Token": "Security Permission Key"
       };
 

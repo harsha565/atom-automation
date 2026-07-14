@@ -103,7 +103,7 @@ export default function AboutUsPage() {
             </p>
             <p>
               <strong>✔ WhatsApp-First</strong><br />
-              Reach customers where they already are, using official WhatsApp Business API integration.
+              Reach customers where they already are, using WhatsApp Business API integration.
             </p>
             <p>
               <strong>✔ Reliable & Secure</strong><br />
