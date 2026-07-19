@@ -18,18 +18,20 @@ const plusJakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://atomautomation.in"),
   title: {
-    default: "Atom Automation • WhatsApp Automation That Works While You Don't",
+    default: "Atom Automation • That Works While You Don't",
     template: "%s | Atom Automation",
   },
   description:
-    "Automate reminders, confirmations, follow-ups, and customer communication through WhatsApp while your business stays focused on serving customers.",
+    "Atom Automation helps businesses automate customer communication, workflows, reminders, follow-ups, and AI-powered business processes so your team can focus on growth.",
   keywords: [
-    "WhatsApp Automation",
-    "WhatsApp Reminders",
-    "Customer Communication",
-    "Automated Follow-ups",
-    "Business Automation",
     "Atom Automation",
+    "Business Automation",
+    "AI Business Automation",
+    "Workflow Automation",
+    "Customer Communication",
+    "WhatsApp Automation",
+    "Automated Follow-ups",
+    "Smart Notifications",
   ],
   authors: [{ name: "Atom Automation", url: "https://atomautomation.in" }],
   creator: "Atom Automation",
@@ -49,17 +51,17 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Atom Automation • WhatsApp Automation That Works While You Don't",
+    title: "Atom Automation • That Works While You Don't",
     description:
-      "Automate reminders, confirmations, follow-ups, and customer communication through WhatsApp while your business stays focused on serving customers.",
+      "Atom Automation helps businesses automate customer communication, workflows, reminders, follow-ups, and AI-powered business processes so your team can focus on growth.",
     url: "https://atomautomation.in",
     siteName: "Atom Automation",
     images: [
       {
-        url: "/logo.png",
+        url: "https://atomautomation.in/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Atom Automation Logo",
+        alt: "Atom Automation - That Works While You Don't",
       },
     ],
     locale: "en_US",
@@ -67,10 +69,17 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Atom Automation • WhatsApp Automation That Works While You Don't",
+    title: "Atom Automation • That Works While You Don't",
     description:
-      "Automate reminders, confirmations, follow-ups, and customer communication through WhatsApp while your business stays focused on serving customers.",
-    images: ["/logo.png"],
+      "Atom Automation helps businesses automate customer communication, workflows, reminders, follow-ups, and AI-powered business processes so your team can focus on growth.",
+    images: [
+      {
+        url: "https://atomautomation.in/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Atom Automation - That Works While You Don't",
+      },
+    ],
     creator: "@atomautomation",
   },
   icons: {

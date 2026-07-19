@@ -19,8 +19,55 @@ import { ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function LandingPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://atomautomation.in/#organization",
+        "name": "Atom Automation",
+        "url": "https://atomautomation.in",
+        "logo": "https://atomautomation.in/logo.png"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://atomautomation.in/#website",
+        "url": "https://atomautomation.in",
+        "name": "Atom Automation",
+        "publisher": {
+          "@id": "https://atomautomation.in/#organization"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://atomautomation.in/#software",
+        "name": "Atom Automation",
+        "operatingSystem": "All",
+        "applicationCategory": "BusinessApplication",
+        "description":
+          "Atom Automation helps businesses automate customer communication, workflows, reminders, follow-ups, and AI-powered business processes so your team can focus on growth."
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://atomautomation.in/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://atomautomation.in"
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-[#F8F8FF] overflow-visible">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* 1. Navbar */}
       <Navbar />
 
