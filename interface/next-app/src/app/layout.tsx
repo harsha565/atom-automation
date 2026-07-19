@@ -16,6 +16,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://atomautomation.in"),
   title: "Atom Automation • WhatsApp Automation That Works While You Don't",
   description: "Automate reminders, confirmations, follow-ups, and customer communication through WhatsApp while your business stays focused on serving customers.",
   icons: {
